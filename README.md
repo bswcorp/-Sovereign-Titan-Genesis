@@ -1,13 +1,23 @@
-# 🏛️ SOVEREIGN TITAN GENESIS (STG)
-**The Master Protocol for Digital & Intellectual Sovereignty**
+# 🏛️ Sovereign Titan Genesis (STG)
+> *The Big Tent Ecosystem for Educational Sovereignty, Financial Tech, and Defense Hardware.*
 
-STG adalah ekosistem pusat yang mengintegrasikan kurikulum kemandirian (Homeschooling) dengan utilitas aset fisik (Quorum-State). Kami membangun **Mesin Penuntas (Settlement Engine)** di atas infrastruktur mandiri.
+## 📋 Overview
+Sovereign Titan Genesis (STG) adalah ekosistem teknologi terintegrasi yang dikelola di bawah naungan **Yayasan Sovereign Titan Genesis**. Proyek ini bertujuan untuk menyatukan tiga pilar utama kemandirian digital:
+1. **Homeschooling Core:** Kurikulum pendidikan mandiri berbasis digital.
+2. **Qstate Engine:** Infrastruktur operasional dan manajemen aset digital.
+3. **H2K Defense:** Integrasi perangkat keras untuk perlindungan perimeter dan privasi data.
 
-### 🛡️ Core Infrastructure (H2K)
-- **Status:** Operational Wing Active.
-- **Node:** 4 Physical Units (Gateway, Settlement, Storage, Shield).
-- **Asset:** $QSTATE Decentralized Exchange (DEX).
+## 🏗️ Architecture
+Proyek ini menggunakan struktur **Git Submodules** untuk menjaga modularitas setiap unit:
+- `/knowledge`: Kurikulum Homeschooling.
+- `/operation`: Mesin operasional Qstate.
+- `/defense`: Driver dan integrasi hardware H2K.
+- `/search`: Mesin pencari mandiri Titan Search.
 
----
-*Commanded from: Bintoro ↔️ Ciracas*  
-*License: MIT | Security: Stealth Mode*
+## 🚀 Getting Started
+Untuk mensinkronkan seluruh ekosistem di mesin lokal Anda:
+1. Clone repo utama: `git clone [URL_REPO_STG]`
+2. Jalankan script sinkronisasi:
+   ```bash
+   chmod +x titan-sync.sh
+   ./titan-sync.sh
