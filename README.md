@@ -7,6 +7,18 @@ Sovereign Titan Genesis (STG) adalah ekosistem teknologi terintegrasi yang dikel
 2. **Qstate Engine:** Infrastruktur operasional dan manajemen aset digital.
 3. **H2K Defense:** Integrasi perangkat keras untuk perlindungan perimeter dan privasi data.
 
+---
+## 🌍 Sovereign Titan Global Vision
+Sovereign Titan Genesis mengoperasikan sistem **Dual-Node Heart** yang ditempatkan secara strategis di **Singapore** dan **Swiss Alps**.
+
+### 🏛️ Pillars of QSTATE:
+1. **Human-to-Kinetic (H2K):** Minting koin melalui detak jantung manusia asli.
+2. **Aksara Logic:** Enkripsi berbasis linguistik Nusantara untuk keamanan era Q-Day.
+3. **Quorum-State:** Protokol konsensus global yang anti-bot (Phone Farm Proof).
+
+[Read Global Compliance & Strategy Documentation](./docs/README.md)
+
+
 ## 🏗️ Architecture
 Proyek ini menggunakan struktur **Git Submodules** untuk menjaga modularitas setiap unit:
 - `/knowledge`: Kurikulum Homeschooling.
