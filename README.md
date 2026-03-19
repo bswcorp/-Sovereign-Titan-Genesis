@@ -26,6 +26,15 @@ Proyek ini menggunakan struktur **Git Submodules** untuk menjaga modularitas set
 - `/defense`: Driver dan integrasi hardware H2K.
 - `/search`: Mesin pencari mandiri Titan Search.
 
+# 🏛️ SOVEREIGN-TITAN-GENESIS
+Infrastruktur Perbankan Digital Berdaulat - Dibuat oleh Andi Muhammad Harpianto.
+
+## Fitur Utama
+- **Interplanetary Bank Terminal:** Antarmuka web3 siap pakai.
+- **Titan Hardware Bridge:** Koneksi langsung ESP32 ke blockchain.
+- **Gasless Infrastructure:** Transaksi tanpa biaya melalui LightLink.
+- 
+
 ## 🚀 Getting Started
 Untuk mensinkronkan seluruh ekosistem di mesin lokal Anda:
 1. Clone repo utama: `git clone [URL_REPO_STG]`
