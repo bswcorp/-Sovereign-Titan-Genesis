@@ -1,112 +1,76 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>QUORUM-STATE | Global Sovereign Terminal</title>
+    <title>TITAN PORTAL | ANDI MUHAMMAD HARPIANTO</title>
     <script src="https://cdnjs.cloudflare.com" type="module"></script>
     <style>
-        :root { --gold: #D4AF37; --cyan: #00f2ff; --bg: #050505; --heart: #ff0000; }
+        :root { --gold: #D4AF37; --bg: #050505; --neon: #00f2ff; }
         body { background: var(--bg); color: white; font-family: 'Courier New', monospace; text-align: center; padding: 20px; }
-        
-        /* EFEK PULSE JANTUNG */
-        .terminal { 
-            border: 2px solid var(--gold); padding: 30px; display: inline-block; 
-            background: #000; border-radius: 15px; position: relative;
-            animation: heartPulse 1.5s infinite; /* Efek Denyut */
-        }
-        @keyframes heartPulse {
-            0% { box-shadow: 0 0 10px var(--gold); }
-            50% { box-shadow: 0 0 30px var(--heart); border-color: var(--heart); }
-            100% { box-shadow: 0 0 10px var(--gold); }
-        }
-
-        .btn { background: var(--cyan); color: black; border: none; padding: 12px 20px; font-weight: bold; cursor: pointer; border-radius: 5px; width: 100%; margin-top: 10px; }
-        .input-box { width: 100%; padding: 10px; margin: 10px 0; background: #111; color: var(--cyan); border: 1px solid var(--gold); box-sizing: border-box; }
-        .data-display { margin: 20px 0; color: var(--gold); font-size: 1.1rem; border-top: 1px solid #333; padding-top: 10px; }
+        .vault { border: 3px solid var(--gold); padding: 30px; display: inline-block; background: #000; border-radius: 20px; box-shadow: 0 0 30px var(--gold); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { border-color: var(--gold); } 50% { border-color: #ff0000; } 100% { border-color: var(--gold); } }
+        .btn { background: var(--neon); color: #000; border: none; padding: 15px; width: 100%; font-weight: bold; cursor: pointer; margin-top: 10px; border-radius: 10px; }
+        input { width: 90%; padding: 10px; margin: 10px 0; background: #111; color: var(--neon); border: 1px solid var(--gold); }
     </style>
 </head>
 <body>
-
-    <div class="terminal">
-        <h1 style="margin:0;">QUORUM-STATE</h1>
-        <p style="font-size: 0.7rem; color: #888;">ARCHITECT: ANDI MUHAMMAD HARPIANTO</p>
+    <div class="vault">
+        <h1 style="color: var(--gold); margin: 0;">SOVEREIGN TITAN</h1>
+        <p style="font-size: 0.7rem;">FOUNDER: ANDI MUHAMMAD HARPIANTO</p>
         
-        <div class="data-display">
-            <div id="userBalance" style="font-size: 1.5rem; color: #fff;">HUBUNGKAN JANTUNG...</div>
-            <div id="qstateBalance" style="font-size: 0.8rem; opacity: 0.7;">0 $QSTATE</div>
+        <div style="margin: 20px 0; border-top: 1px solid #333; padding-top: 10px;">
+            <div id="status" style="color: #4ade80; font-size: 0.8rem;">● SYSTEM READY</div>
+            <div id="balanceDisplay" style="font-size: 2.2rem; margin: 10px 0;">0 AKSA</div>
         </div>
 
-        <button id="connectBtn" class="btn">IDENTIFIKASI WALLET</button>
-        <p id="walletAddr" style="font-size: 0.6rem; color: #555;"></p>
+        <button class="btn" id="connectWallet">HUBUNGKAN JANTUNG DIGITAL</button>
 
-        <!-- FITUR TRANSAKSI -->
-        <div id="transferSection" style="display:none; border-top: 1px solid #333; margin-top: 20px; padding-top: 10px;">
-            <p style="font-size: 0.8rem; color: var(--gold);">MENU TRANSFER AKSA</p>
-            <input type="text" id="toAddress" class="input-box" placeholder="Alamat Penerima (0x...)">
-            <input type="number" id="amountAksa" class="input-box" placeholder="Jumlah AKSA">
-            <button id="transferBtn" class="btn" style="background: var(--gold);">KIRIM SEKARANG</button>
+        <div id="txPanel" style="display:none; margin-top: 20px; border-top: 1px dashed #444; padding-top: 10px;">
+            <p style="font-size: 0.8rem; color: var(--gold);">MENU TRANSFER</p>
+            <input type="text" id="targetAddr" placeholder="Alamat Tujuan (0x...)">
+            <input type="number" id="sendAmount" placeholder="Jumlah AKSA">
+            <button class="btn" style="background: var(--gold);" id="sendBtn">KIRIM SEKARANG</button>
         </div>
     </div>
 
     <script type="module">
         import { ethers } from "https://cdnjs.cloudflare.com";
-
-         const contractAddress = "0x70a64d8216e91077B2C36695596482Be068640c1"; 
-
+        
+        // GANTI INI DENGAN ALAMAT DARI BRANKAS_RAHASIA.TXT
+        const contractAddress = "PASTE_ALAMAT_KONTRAK_BARU_BAPAK"; 
+        
         const abi = [
             "function balanceOf(address) view returns (uint256)",
             "function transfer(address to, uint256 amount) returns (bool)"
         ];
 
-        let signer;
-        let contract;
+        let signer, contract;
 
-        const connectBtn = document.getElementById('connectBtn');
-        const userBalance = document.getElementById('userBalance');
-        const transferSection = document.getElementById('transferSection');
-
-        connectBtn.onclick = async () => {
-            if (window.ethereum) {
-                const provider = new ethers.BrowserProvider(window.ethereum);
-                const accounts = await provider.send("eth_requestAccounts", []);
-                signer = await provider.getSigner();
-                contract = new ethers.Contract(contractAddress, abi, signer);
-                
-                updateBalance(accounts[0]);
-                transferSection.style.display = "block";
-                document.getElementById('walletAddr').innerText = accounts[0];
-            }
+        document.getElementById('connectWallet').onclick = async () => {
+            const provider = new ethers.BrowserProvider(window.ethereum);
+            const accounts = await provider.send("eth_requestAccounts", []);
+            signer = await provider.getSigner();
+            contract = new ethers.Contract(contractAddress, abi, signer);
+            
+            const bal = await contract.balanceOf(accounts[0]);
+            const qstate = ethers.formatUnits(bal, 18);
+            const aksa = parseFloat(qstate) * 100000000;
+            
+            document.getElementById('balanceDisplay').innerText = aksa.toLocaleString() + " AKSA";
+            document.getElementById('txPanel').style.display = "block";
+            document.getElementById('connectWallet').innerText = "JANTUNG TERHUBUNG";
         };
 
-        async function updateBalance(addr) {
-            const balance = await contract.balanceOf(addr);
-            const qstate = ethers.formatUnits(balance, 18);
-            const aksa = parseFloat(qstate) * 100000000;
-            userBalance.innerText = aksa.toLocaleString('id-ID') + " AKSA";
-            document.getElementById('qstateBalance').innerText = qstate + " $QSTATE";
-        }
-
-        document.getElementById('transferBtn').onclick = async () => {
-            const to = document.getElementById('toAddress').value;
-            const amountAksa = document.getElementById('amountAksa').value;
+        document.getElementById('sendBtn').onclick = async () => {
+            const to = document.getElementById('targetAddr').value;
+            const amt = document.getElementById('sendAmount').value;
+            const finalAmt = ethers.parseUnits((amt/100000000).toString(), 18);
             
-            if(!to || !amountAksa) return alert("Data Kosong!");
-
-            try {
-                // Konversi Aksa kembali ke unit Blockchain (Desimal 18)
-                const amountQState = (parseFloat(amountAksa) / 100000000).toString();
-                const txAmount = ethers.parseUnits(amountQState, 18);
-
-                alert("Menyiapkan Transfer Aksa...");
-                const tx = await contract.transfer(to, txAmount);
-                alert("Transaksi Dikirim! Tunggu konfirmasi...");
-                await tx.wait();
-                alert("Transfer Berhasil!");
-                location.reload();
-            } catch (err) {
-                alert("Gagal: " + err.message);
-            }
+            alert("Memproses Transfer Aksa...");
+            const tx = await contract.transfer(to, finalAmt);
+            await tx.wait();
+            alert("Transfer Sukses, Bosku!");
+            location.reload();
         };
     </script>
 </body>
