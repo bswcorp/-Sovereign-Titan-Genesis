@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <!-- METADATA GLOBAL TITAN (i18n & Standard Compliance) -->
+    <!-- 1. METADATA GLOBAL (i18n) -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="localization" content="L10n-IDN">
     <meta name="globalization" content="G11n-Titan">
     <meta name="internationalization" content="i18n-Compatible">
-    
     <title>TITAN PORTAL | ARCHITECT ANDI M. HARPIANTO</title>
     
-    <!-- Library Ethers.js untuk Blockchain -->
+    <!-- 2. LIBRARY RESMI -->
     <script src="https://cdnjs.cloudflare.com"></script>
 
     <style>
         :root { --gold: #D4AF37; --bg: #050505; --neon: #00f2ff; --red: #ff3e3e; }
         body { background: var(--bg); color: white; font-family: 'Courier New', monospace; text-align: center; padding: 20px; overflow-x: hidden; }
         
+        /* FRAME EMAS BERDENYUT */
         .vault-frame { 
             border: 4px solid var(--gold); padding: 30px; display: inline-block; 
             background: rgba(0,0,0,0.9); border-radius: 20px; box-shadow: 0 0 40px var(--gold); 
@@ -31,13 +31,16 @@
         .btn { background: var(--neon); color: #000; border: none; padding: 15px; width: 100%; font-weight: bold; cursor: pointer; border-radius: 10px; margin-top: 10px; text-transform: uppercase; }
         input { width: 100%; padding: 12px; margin: 8px 0; background: #111; color: var(--neon); border: 1px solid var(--gold); border-radius: 5px; box-sizing: border-box; }
         
-        #resilienceDashboard { margin-top: 40px; padding: 20px; border: 1px solid var(--neon); border-radius: 15px; background: rgba(10,10,10,0.9); font-size: 0.8rem; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; }
+        /* DASHBOARD & AUDIT LOG */
+        #marketDashboard, #auditLogBox { margin-top: 20px; padding: 15px; border-radius: 10px; text-align: left; }
+        #marketDashboard { border: 2px solid var(--neon); background: rgba(0,0,0,0.8); }
+        #auditLogBox { border: 1px solid #333; background: #000; font-family: monospace; font-size: 0.65rem; }
+        .grid-display { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <!-- WIDGET BAHASA GLOBAL -->
+    <!-- GOOGLE TRANSLATE WIDGET -->
     <div id="google_translate_element" style="position:fixed; bottom:20px; right:20px; z-index:9999;"></div>
 
     <div class="vault-frame">
@@ -54,7 +57,7 @@
 
         <!-- EXTERNAL LINKS -->
         <div style="margin-top: 20px; display: flex; gap: 10px;">
-            <a href="https://quorumstate.international/" target="_blank" style="flex:1; text-decoration:none;">
+            <a href="https://quorumstate.international" target="_blank" style="flex:1; text-decoration:none;">
                 <button class="btn" style="background:#004e92; color:white; font-size:0.6rem;">🌐 GLOBAL SITE</button>
             </a>
             <a href="https://www.qstate.abrdns.com" target="_blank" style="flex:1; text-decoration:none;">
@@ -62,29 +65,40 @@
             </a>
         </div>
 
-        <!-- DASHBOARD KETAHANAN -->
-        <div id="resilienceDashboard">
-            <b style="color: var(--neon);">📊 TITAN RESILIENCE INDEX</b>
-            <div style="font-size: 1.5rem; margin: 10px 0;" id="triValue">98.2</div>
-            <div class="grid-3">
-                <div style="border:1px solid #333; padding:5px;">DOMAIN<br>10Y LOCK</div>
-                <div style="border:1px solid #333; padding:5px;">CLOUD<br>5Y LOCK</div>
-                <div style="border:1px solid #333; padding:5px;">DATA CNTR<br>5Y LOCK</div>
+        <!-- MARKET GOVERNANCE -->
+        <div id="marketDashboard">
+            <b style="color: var(--neon); font-size: 0.8rem;">📊 MARKET GOVERNANCE (Ketetapan)</b>
+            <div class="grid-display">
+                <div style="background:#111; padding:10px; border-left:3px solid var(--gold);">
+                    <div style="font-size:0.6rem; color:var(--gold);">RESILIENCE INDEX</div>
+                    <div id="triValue" style="font-size:1.2rem; font-weight:bold; color:#4ade80;">98.2</div>
+                </div>
+                <div style="background:#111; padding:10px; border-left:3px solid var(--neon);">
+                    <div style="font-size:0.6rem; color:var(--neon);">PREDIKSI 1 AKSA</div>
+                    <div id="aksaPrice" style="font-size:1.2rem; font-weight:bold; color:#fff;">Rp 15.000</div>
+                </div>
+            </div>
+            <input type="range" id="riskSlider" min="0" max="100" value="10" style="width:100%; margin-top:10px;">
+        </div>
+
+        <!-- AUDIT LOG -->
+        <div id="auditLogBox">
+            <b style="color: var(--gold);">📑 INFRASTRUCTURE AUDIT LOG (5-10Y)</b>
+            <div style="margin-top: 10px; color: #888;">
+                <div>[2036-EXP] <span style="color:#4ade80;">SECURED</span>: Domain .INTL</div>
+                <div>[2031-EXP] <span style="color:var(--neon);">LOCKED</span>: Cloud Enterprise</div>
+                <div>[2031-EXP] <span style="color:var(--neon);">LOCKED</span>: Data Center Space</div>
             </div>
         </div>
     </div>
 
     <!-- SCRIPTS -->
-    <script>
-        // Titan Core ID for Low-Level Mapping
-        const TITAN_CORE_ID = [0xA9, 0xAA, 0xAB];
-        console.log("i18n Initialized | G11n: Titan | L10n: IDN");
-
+    <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({pageLanguage: 'id'}, 'google_translate_element');
         }
     </script>
-    <script src="//://translate.google.com"></script>
+    <script type="text/javascript" src="https://translate.google.com"></script>
 
     <script type="module">
         const contractAddress = "0xd9145CCE52D386f254917e481eB44e9943F39138";
@@ -96,67 +110,18 @@
                 const accounts = await provider.send("eth_requestAccounts", []);
                 const contract = new ethers.Contract(contractAddress, abi, provider);
                 const bal = await contract.balanceOf(accounts[0]);
-                const qstate = ethers.formatUnits(bal, 18);
-                document.getElementById('aksaBalance').innerText = (parseFloat(qstate) * 100000000).toLocaleString() + " AKSA";
-                document.getElementById('qstateBalance').innerText = qstate + " $QSTATE";
+                document.getElementById('aksaBalance').innerText = (parseFloat(ethers.formatUnits(bal, 18)) * 100000000).toLocaleString() + " AKSA";
+                document.getElementById('qstateBalance').innerText = ethers.formatUnits(bal, 18) + " $QSTATE";
                 document.getElementById('statusLog').innerText = "● JANTUNG TERHUBUNG";
             }
         };
+
+        const riskSlider = document.getElementById('riskSlider');
+        riskSlider.oninput = function() {
+            let risk = parseInt(this.value);
+            document.getElementById('triValue').innerText = (90 + (risk * 0.1)).toFixed(1);
+            document.getElementById('aksaPrice').innerText = "Rp " + (15000 + (risk * 250)).toLocaleString('id-ID');
+        };
     </script>
-    <!-- 1. MARKET GOVERNANCE DASHBOARD (PENENTU HARGA AKSA) -->
-<div id="marketDashboard" style="margin-top: 30px; padding: 20px; border: 2px solid var(--neon); border-radius: 15px; background: rgba(0,0,0,0.8); text-align: left;">
-    <b style="color: var(--neon); font-size: 0.8rem; letter-spacing: 2px;">📊 MARKET GOVERNANCE (Ketetapan Otoritas)</b>
-    
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
-        <div style="background: #111; padding: 10px; border-left: 3px solid var(--gold);">
-            <div style="font-size: 0.6rem; color: var(--gold);">TITAN RESILIENCE INDEX</div>
-            <div id="triValue" style="font-size: 1.5rem; font-weight: bold; color: #4ade80;">98.2</div>
-        </div>
-        <div style="background: #111; padding: 10px; border-left: 3px solid var(--neon);">
-            <div style="font-size: 0.6rem; color: var(--neon);">PREDIKSI 1 AKSA (IDR)</div>
-            <div id="aksaPrice" style="font-size: 1.5rem; font-weight: bold; color: #fff;">Rp 15.000</div>
-        </div>
-    </div>
-
-    <!-- SLIDER KRISIS (PENGARUH HARGA) -->
-    <div style="margin-top: 15px;">
-        <label style="font-size: 0.6rem; color: #888;">GLOBAL RISK SIMULATOR (ADJUST VALUE):</label>
-        <input type="range" id="riskSlider" min="0" max="100" value="10" style="width: 100%; accent-color: var(--neon);">
-    </div>
-</div>
-
-<!-- 2. INFRASTRUCTURE AUDIT LOG (CATATAN SEWA 5-10 TAHUN) -->
-<div id="auditLogBox" style="margin-top: 20px; padding: 15px; border: 1px solid #333; background: #000; border-radius: 10px; font-family: monospace; font-size: 0.65rem; text-align: left;">
-    <b style="color: var(--gold);">📑 INFRASTRUCTURE AUDIT LOG (5-10Y LOCK)</b>
-    <div style="margin-top: 10px; color: #666; line-height: 1.5;">
-        <div>[CONTRACT-01] <span style="color:#4ade80;">SECURED</span>: Domain .INTL (10 Years Expiry 2036)</div>
-        <div>[CONTRACT-02] <span style="color:var(--neon);">LOCKED</span>: Cloud Enterprise (5 Years Expiry 2031)</div>
-        <div>[CONTRACT-03] <span style="color:var(--neon);">LOCKED</span>: Data Center Space (5 Years Expiry 2031)</div>
-        <div id="liveAudit" style="color: #444; border-top: 1px solid #222; margin-top: 5px; padding-top: 5px;">
-            Scanning Node Infrastructure... <span style="color:var(--gold);">[OK]</span>
-        </div>
-    </div>
-</div>
-
-<script>
-    // LOGIKA HARGA & INDEX (Ketetapan Kapten)
-    const riskSlider = document.getElementById('riskSlider');
-    const triValue = document.getElementById('triValue');
-    const aksaPrice = document.getElementById('aksaPrice');
-
-    riskSlider.oninput = function() {
-        let risk = parseInt(this.value);
-        // Jika krisis global naik, kedaulatan Titan menguat!
-        let newTri = 90 + (risk * 0.1);
-        let newAksa = 15000 + (risk * 250); // Harga naik saat krisis
-
-        triValue.innerText = newTri.toFixed(1);
-        aksaPrice.innerText = "Rp " + newAksa.toLocaleString('id-ID');
-        
-        // Update Audit Log secara live
-        document.getElementById('liveAudit').innerText = "Global Issue Detected: Adjusting Resilience... [" + risk + "%]";
-    };
-</script>
-    
 </body>
 </html>
