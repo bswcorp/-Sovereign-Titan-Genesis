@@ -91,6 +91,41 @@
             <span>STATUS</span>
         </div>
         <div id="explorerFeed" style="margin-top: 10px; max-height: 150px; overflow-y: auto;">
+        <!-- SERTIFIKAT KEDAULATAN GENESIS -->
+<div id="genesisCertificate" style="margin-top: 40px; padding: 40px; border: 5px double var(--gold); background: linear-gradient(135deg, #000 0%, #111 100%); position: relative; max-width: 600px; margin-left: auto; margin-right: auto; box-shadow: 0 0 50px var(--gold);">
+    
+    <!-- Watermark Aksara -->
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 5rem; opacity: 0.05; color: var(--gold); z-index: 0; pointer-events: none;">ꦱꦪꦕꦶꦤ꧀ꦠ</div>
+
+    <div style="position: relative; z-index: 1;">
+        <h2 style="color: var(--gold); font-family: 'Orbitron'; letter-spacing: 5px; margin-bottom: 5px;">CERTIFICATE OF SOVEREIGNTY</h2>
+        <p style="font-size: 0.7rem; color: #888;">GENESIS BLOCK #1 VERIFICATION</p>
+        
+        <div style="margin: 30px 0; border: 1px solid #333; padding: 20px;">
+            <p style="font-size: 0.9rem;">DENGAN INI DINYATAKAN BAHWA:</p>
+            <h1 style="font-size: 1.5rem; color: #fff; text-shadow: 0 0 10px var(--gold);">ANDI MUHAMMAD HARPIANTO</h1>
+            <p style="font-size: 0.8rem;">ADALAH PEMILIK SAH & ARSITEK TUNGGAL DARI:</p>
+            <h2 style="color: var(--neon); letter-spacing: 3px;">1.000.000.000.000 $QSTATE</h2>
+        </div>
+
+        <div style="text-align: left; font-size: 0.6rem; color: #666; font-family: monospace;">
+            <div>NETWORK ID: GANACHE-TITAN-CORE-01</div>
+            <div>CONTRACT: 0xd9145CCE52D386f254917e481eB44e9943F39138</div>
+            <div>TIMESTAMP: <span id="certDate"></span></div>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <button class="btn" style="background: var(--gold); color: black; width: auto; padding: 10px 20px;" onclick="window.print()">
+                🖨️ CETAK SERTIFIKAT KEDAULATAN
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('certDate').innerText = new Date().toUTCString();
+</script>
+            
             <!-- DATA TRANSAKSI AKAN MUNCUL DI SINI -->
             <div style="color: #4ade80;">[BLOCK #1] Contract Deployment: 0xd914... [SUCCESS]</div>
             <div style="color: var(--neon);">[BLOCK #2] Minting Genesis: 1,000,000,000,000 $QSTATE [COMPLETED]</div>
