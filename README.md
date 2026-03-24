@@ -51,6 +51,12 @@ Proyek ini dikelola menggunakan **Git Submodules** untuk memastikan setiap depar
 3.  **Jalankan Mesin:**
     `chmod +x titan-sync.sh && ./titan-sync.sh`
 
+# 🏫 SOVEREIGN HOMESCHOOLING
+Kurikulum Literasi Digital & Blockchain untuk generasi berdaulat.
+- Level 1: Hardware & Python.
+- Level 2: Smart Contract & Web3.
+- 
+
 ---
 
 ## ⚖️ Governance & Compliance
