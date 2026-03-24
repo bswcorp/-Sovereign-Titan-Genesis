@@ -1,13 +1,7 @@
-// Logika Integrasi e-Rp ke AKSA
-function swapERupiahToAksa(uint256 amountERp) public {
-    require(isH2KVerified[msg.sender], "H2K Auth Required");
-    // 1. Terima e-Rp Digital dari Bank Sentral/Gateway
-    // 2. Kunci e-Rp di Sovereign Vault (Swiss/Singapore)
-    // 3. Kirim AKSA ke dompet pengguna secara instan
-}
 // SPDX-License-Identifier: MIT
 // Modul: Hybrid CBDC Bridge (e-Rp to AKSA)
-// Arsitek: Andi Muhammad Harpianto
+// Arsitek Utama: Andi Muhammad Harpianto
+// Framework: Sovereign Titan Genesis (STG)
 
 pragma solidity ^0.8.22;
 
@@ -16,29 +10,42 @@ import "./QStateToken.sol";
 contract HybridBridge is Ownable {
     QStateToken public aksaToken;
     
-    // Mapping untuk melacak e-Rp yang dikunci (Locked Asset)
+    // Mapping untuk melacak e-Rp yang dikunci (Locked Asset) di Sovereign Vault
     mapping(address => uint256) public lockedERupiah;
 
     event AssetBridged(address indexed user, uint256 amount, string targetCurrency);
+    event AssetReleased(address indexed user, uint256 amount, string targetCurrency);
 
+    // Perbaikan: Ownable sekarang butuh msg.sender di constructor
     constructor(address _aksaAddress) Ownable(msg.sender) {
         aksaToken = QStateToken(_aksaAddress);
     }
 
     /**
-     * @dev Mengonversi e-Rp Digital menjadi unit AKSA
-     * Memerlukan validasi H2K dari Kontrak Utama
+     * @dev Mekanisme Integrasi e-Rp ke AKSA (Swap)
+     * 1. Terima e-Rp Digital dari Bank Sentral/Gateway STG
+     * 2. Kunci nilai e-Rp di Sovereign Vault (Swiss/Singapore)
+     * 3. Kirim AKSA ke dompet pengguna secara instan via H2K
      */
     function bridgeToAksa(uint256 amountERp) public {
-        require(aksaToken.isH2KVerified(msg.sender), "H2K Auth Required");
+        // Validasi identitas biologis (H2K) dari kontrak utama
+        require(aksaToken.isH2KVerified(msg.sender), "H2K Auth Required: Jantung Tidak Terdeteksi.");
         
-        // Logika: Asumsikan e-Rp telah diterima oleh Gateway STG
+        // Pencatatan aset yang dikunci (Sovereign Vault Storage)
         lockedERupiah[msg.sender] += amountERp;
         
-        // Cetak/Kirim AKSA setara (Adjustment rate 1:1 atau sesuai Oracle)
-        aksaToken.transfer(msg.sender, amountERp);
+        // Eksekusi pengiriman AKSA (Pastikan kontrak ini punya saldo AKSA untuk dikirim)
+        // Jika AKSA di-minting baru, gunakan fungsi mint (jika tersedia di QStateToken)
+        bool success = aksaToken.transfer(msg.sender, amountERp);
+        require(success, "Transfer AKSA Gagal: Likuiditas Vault Tidak Cukup.");
         
         emit AssetBridged(msg.sender, amountERp, "AKSA");
     }
-}
 
+    /**
+     * @dev Update alamat kontrak AKSA jika terjadi migrasi dahan
+     */
+    function updateAksaAddress(address _newAddress) public onlyOwner {
+        aksaToken = QStateToken(_newAddress);
+    }
+}
