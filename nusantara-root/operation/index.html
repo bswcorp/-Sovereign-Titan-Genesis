@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>QUORUM-STATE | Sovereign Terminal</title>
+    <style>
+        :root { --blue-glow: #008cff; --gold: #D4AF37; }
+        body { background: #000; color: #fff; font-family: 'Courier New', monospace; text-align: center; padding-top: 50px; }
+        .pulse { width: 15px; height: 15px; background: var(--blue-glow); border-radius: 50%; display: inline-block; animation: beat 2s infinite; }
+        @keyframes beat { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(2); opacity: 0; } 100% { transform: scale(1); opacity: 0; } }
+        .terminal { border: 2px solid var(--gold); padding: 40px; display: inline-block; background: #050505; box-shadow: 0 0 50px rgba(0,140,255,0.2); }
+        h2 { color: var(--gold); letter-spacing: 5px; }
+        .supply-info { font-size: 1.2rem; color: var(--blue-glow); margin: 20px 0; }
+        input { background: #111; color: #00f2ff; border: 1px solid #333; padding: 10px; width: 300px; margin-bottom: 10px; }
+        .btn { background: var(--gold); padding: 15px 30px; font-weight: bold; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="pulse"></div> <span>SOVEREIGN PULSE ACTIVE</span>
+        <h2>BANK SENTRAL $QSTATE</h2>
+        <div class="supply-info">TOTAL SUPLAI: 100,000,000,000,000,000 $QSTATE</div>
+        <input type="text" id="contract" placeholder="Alamat Kontrak 100.000T">
+        <br>
+        <button class="btn" onclick="transfer()">PINDAHKAN KEDAULATAN</button>
+        <p id="msg" style="color: #00ff00;"></p>
+    </div>
+    <script type="module">
+        import { ethers } from "https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.min.js";
+        window.transfer = async () => {
+            const addr = document.getElementById("contract").value;
+            if(!addr) return alert("Masukkan alamat kedaulatan!");
+            document.getElementById("msg").innerText = "Mengirim Koin melintasi Samudra...";
+        }
+    </script>
+</body>
+</html>
