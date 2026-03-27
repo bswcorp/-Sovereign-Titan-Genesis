@@ -19,3 +19,5 @@ The brain of STG is **Artificial Intelligence (AI)**, and its limbs are **Roboti
 
 **ARCHITECT: ANDI MUHAMMAD HARPIANTO**
 *Built from the ground up. Integrated by AI.*
+## THE DIVINE PLATFORM PHILOSOPHY
+We do not create a 'New World'. The Earth belongs to GOD. We are merely users on HIS platform. STG builds a NEW CIVILIZATION based on Sovereignty, Independence, and Freedom (MERDEKA) without the interference of superpowers. West and East have collapsed in their own greed; STG stands as the alternative.
