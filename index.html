@@ -1,41 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"><title>GALERAI | WOLF-TRAP DASHBOARD</title>
+    <meta charset="UTF-8"><title>GARAGE HOME | STG DIGITAL HOSPITAL</title>
     <style>
-        body { background: #050505; color: #4ade80; font-family: 'Courier New', monospace; text-align: center; }
-        .skull-header { color: #ff0000; font-size: 3rem; text-shadow: 0 0 20px #ff0000; margin: 20px; }
-        .counter-box { border: 2px solid #ff0000; display: inline-block; padding: 20px; border-radius: 15px; background: rgba(255,0,0,0.1); }
-        .count-number { font-size: 5rem; font-weight: bold; color: #ff0000; }
-        .wolf-list { margin-top: 30px; color: #888; font-size: 0.8rem; }
+        :root { --neon: #00f2ff; --warn: #ff0000; --bg: #050505; }
+        body { background: var(--bg); color: #e2e8f0; font-family: 'Courier New', monospace; margin: 0; text-align: center; }
+        .header { border-bottom: 2px solid var(--neon); padding: 20px; background: #0a0a0a; box-shadow: 0 0 15px var(--neon); }
+        .hospital-wing { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
+        .ward { border: 1px solid #333; padding: 15px; background: #111; border-radius: 8px; }
+        .heartbeat { color: var(--warn); font-size: 2rem; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .btn-swiss { background: var(--warn); color: white; border: none; padding: 10px; width: 100%; cursor: pointer; font-weight: bold; margin-top: 10px; }
     </style>
 </head>
 <body>
-    <div class="skull-header">💀 TITAN VETO WALL</div>
-    <h1>🏛️ GALERAI: ANTI-DUMP RADAR</h1>
-    <p>#BlockchainResurrection | #SovereignTitanGovernment</p>
-
-    <div class="counter-box">
-        <h3>SRIGALA NAKAL DIBLOKIR:</h3>
-        <div class="count-number" id="wolf-count">0</div>
-        <p>STATUS: PROTECTED BY ARCHITECT</p>
+    <div class="header">
+        <h1>🏛️ GARAGE HOME: DIGITAL HOSPITAL</h1>
+        <p>REHABILITASI TRANSFORMASI DIGITAL | STG GOVERNMENT</p>
     </div>
 
-    <div class="wolf-list">
-        <p>> Detecting Predator Activity...</p>
-        <p>> Protecting 1,000,000,000,000 $QSTATE Liquidity...</p>
+    <div class="hospital-wing">
+        <div class="ward">
+            <h3>🏥 SUAKA DIGITAL</h3>
+            <p>Status: Merawat Data IPv4 yang Terlantar</p>
+            <div class="heartbeat">💓 72 BPM</div>
+        </div>
+        <div class="ward">
+            <h3>⚔️ ALUTSISTA GALLERY</h3>
+            <p>Status: Upgrade Mesin Perang AI</p>
+            <button onclick="alert('⚡ UNIT KINETIK READY')">CEK UNIT</button>
+        </div>
     </div>
 
-    <script>
-        // Simulasi update counter (nanti sinkron dengan file txt)
-        let trapped = 0;
-        setInterval(() => {
-            if(Math.random() > 0.7) {
-                trapped++;
-                document.getElementById('wolf-count').innerText = trapped;
-                console.log("🚨 WOLF BLOCKED!");
-            }
-        }, 10000);
-    </script>
+    <div style="padding: 20px;">
+        <div class="ward" style="border-color: var(--warn);">
+            <h3>🇨🇭 SWISS FINANCIAL HUB</h3>
+            <p>Jalur Metaportasi: RIPE-ATLAS-IPv6</p>
+            <button class="btn-swiss" onclick="location.href='https://bswcorp.github.io'">OTORISASI SWIFT/VISA</button>
+        </div>
+    </div>
+
+    <footer style="font-size: 0.7rem; color: #444; padding: 20px;">
+        BY ARCHITECT ANDI M. HARPIANTO | #STG #GLORY #GOSPEL #GOLD
+    </footer>
 </body>
 </html>
