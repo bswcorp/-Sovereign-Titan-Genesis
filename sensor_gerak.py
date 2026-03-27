@@ -1,28 +1,20 @@
 import time
 import random
+from mm_admin_titan import log_intrusion
 
 def monitor_galerai():
-    print("==========================================")
-    print("🏛️  GALERAI MOTION SENSOR - STG GOV")
-    print("🛡️  STATUS: SCANNING SEKTOR ALUTSISTA...")
-    print("==========================================")
-    
+    print("🛰️  RADAR SONAR WAR: ONLINE")
     try:
         while True:
-            # Simulasi deteksi gerakan di halaman luas
             detection = random.random()
-            timestamp = time.strftime("%H:%M:%S")
-            
             if detection > 0.8:
-                print(f"[{timestamp}] ⚠️ ALERT: PERGERAKAN TERDETEKSI DI SEKTOR 2 (ALUTSISTA REBORN)!")
+                print("⚠️  DETEKSI PENYUSUP! MENGHUBUNGI ADMIN GPFS...")
+                log_intrusion("SECTOR_02_ALUTSISTA", "CRITICAL")
             elif detection < 0.1:
-                print(f"[{timestamp}] 🛸 INFO: WAHANA UDARA (SONAR) MELINTAS - STATUS: CLEAR.")
-            else:
-                print(f"[{timestamp}] 🟢 STATUS: AMAN - HALAMAN TERPANTAU.")
-            
-            time.sleep(3)
+                log_intrusion("SECTOR_03_SONAR", "INFO")
+            time.sleep(5)
     except KeyboardInterrupt:
-        print("\n[!] MONITORING DIHENTIKAN OLEH ARCHITECT.")
+        print("\n[!] SHUTTING DOWN GPFS CLUSTER ADMIN.")
 
 if __name__ == "__main__":
     monitor_galerai()
