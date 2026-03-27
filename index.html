@@ -9,14 +9,13 @@
         body { background: var(--bg); color: #e2e8f0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; overflow-x: hidden; }
         header { background: rgba(0,0,0,0.8); border-bottom: 2px solid var(--ibm-blue); padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
         .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 20px; }
-        .card { background: #111; border: 1px solid #333; border-radius: 12px; padding: 20px; position: relative; transition: 0.3s; }
+        .card { background: #111; border: 1px solid #333; border-radius: 12px; padding: 20px; transition: 0.3s; }
         .card:hover { border-color: var(--ibm-blue); box-shadow: 0 0 15px rgba(15, 98, 254, 0.3); }
         .status-light { width: 12px; height: 12px; border-radius: 50%; background: var(--neon-green); box-shadow: 0 0 8px var(--neon-green); animation: pulse 2s infinite; }
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
         .btn { background: transparent; border: 1px solid var(--neon-green); color: var(--neon-green); padding: 10px; width: 100%; border-radius: 6px; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; margin-top: 10px; }
-        .btn:hover { background: var(--neon-green); color: black; }
         .btn-swiss { border-color: var(--swiss-red); color: var(--swiss-red); font-weight: bold; }
-        .btn-swiss:hover { background: var(--swiss-red); color: white; }
+        .btn-swiss:active { transform: scale(0.95); }
         #log-container { background: #000; color: var(--neon-green); font-family: monospace; height: 120px; overflow-y: auto; padding: 10px; border-radius: 6px; font-size: 0.75rem; border: 1px solid #222; }
         .swiss-box { border: 1px dashed var(--swiss-red); padding: 10px; margin-top: 10px; border-radius: 6px; text-align: center; }
     </style>
@@ -24,70 +23,79 @@
 <body>
 
 <header>
-    <div style="font-weight:bold; letter-spacing:2px;">🏛️ GALERAI <span style="background:var(--ibm-blue); padding:2px 5px; font-size:0.7rem; border-radius:3px;">ADMIN v2.5</span></div>
+    <div style="font-weight:bold; letter-spacing:2px;">🏛️ GALERAI <span style="background:var(--ibm-blue); padding:2px 5px; font-size:0.7rem; border-radius:3px;">GLORY EDITION</span></div>
     <div style="font-size: 0.8rem; color: #888;">AMBASSADOR: RIPE-ATLAS-JAKARTA</div>
 </header>
 
 <div class="dashboard-grid">
-    <!-- RIPE ATLAS -->
     <div class="card">
         <h3>📡 RIPE ATLAS NETWORK</h3>
         <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>JAKARTA (AMBASSADOR)</span> <div class="status-light"></div></div>
         <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>BINTARO (LEGACY IPv4)</span> <div class="status-light"></div></div>
         <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>CIRACAS (IPv6 READY)</span> <div class="status-light"></div></div>
-        <button class="btn" onclick="alert('RIPE ATLAS: Latency measured via Jon Postel Legacy Protocol')">MEASURE LATENCY</button>
+        <button class="btn" onclick="playBeep(440, 0.1); alert('RIPE ATLAS: Measuring Sovereign Latency...')">MEASURE LATENCY</button>
     </div>
 
-    <!-- SWIFT/VISA SWISS HUB -->
     <div class="card" style="border-color: var(--swiss-red);">
         <h3 style="color: var(--swiss-red);">🇨🇭 SWISS FINANCIAL HUB</h3>
-        <p style="font-size: 0.8rem;">Gateway: <strong>IPv6-REPATLAS-SWISS</strong></p>
         <div class="swiss-box">
-            <span id="swiss-status" style="font-size: 0.7rem; color: #888;">WAITING FOR AUTHORIZATION...</span>
+            <span id="swiss-status" style="font-size: 0.7rem; color: #888;">READY FOR METAPORTATION</span>
         </div>
         <button class="btn btn-swiss" onclick="authorizeSwiss()">AUTHORIZE SWIFT/VISA</button>
-        <p style="font-size: 0.6rem; margin-top: 10px; color: #555;">Protocol: STG-Swiss-Bridge via Jon Postel Declaration</p>
+        <p style="font-size: 0.6rem; margin-top: 10px; color: #555;">Path: IPv6-Swiss-Repatlas | Panji Jon Postel</p>
     </div>
 
-    <!-- SYSTEM LOGS -->
     <div class="card">
-        <h3>🚨 LOGS: IBM Spectrum Scale</h3>
+        <h3>🚨 SYSTEM LOGS</h3>
         <div id="log-container">
-            [SYS] Booting Jon Postel Panji-Panji...<br>
-            [NET] Connecting to RIPE NCC Ambassador...<br>
+            [SYS] Radar Active...<br>
         </div>
-        <button class="btn" onclick="alert('mmgetstatus: ALL NODES SOVEREIGN')">mmgetstatus</button>
+        <button class="btn" onclick="playBeep(880, 0.05); alert('mmgetstatus: ALL NODES SOVEREIGN')">mmgetstatus</button>
     </div>
 </div>
 
 <script>
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playBeep(freq, duration) {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+    }
+
     function authorizeSwiss() {
         const status = document.getElementById('swiss-status');
-        status.innerHTML = "🔐 ENCRYPTING VIA IPv6...";
+        // Suara Inisialisasi
+        playBeep(220, 0.1);
+        status.innerHTML = "🔐 ENCRYPTING IPv6...";
         status.style.color = "yellow";
         
         setTimeout(() => {
-            status.innerHTML = "🚀 METAPORTASI SWIFT/VISA SUCCESS!";
+            // SUARA GLORY (Dua kali beep cepat)
+            playBeep(880, 0.1);
+            setTimeout(() => playBeep(1200, 0.2), 100);
+
+            status.innerHTML = "🚀 METAPORTASI SUCCESS!";
             status.style.color = "var(--neon-green)";
             const logBox = document.getElementById('log-container');
-            logBox.innerHTML += `> [SWISS] Transaction Authorized via RIPE Atlas Node.<br>`;
+            logBox.innerHTML += `> [SWISS] ${new Date().toLocaleTimeString()} Authorized via IPv6.<br>`;
             logBox.scrollTop = logBox.scrollHeight;
         }, 2000);
     }
 
-    const logs = [
-        "[INFO] IPv6 Path Swiss Hub Stable.",
-        "[NET] RIPE Atlas Jakarta probing Legacy IPv4...",
-        "[GPFS] IBM Spectrum Scale Node-02 Healthy.",
-        "[VETO] Veto Holder Andi M. Harpianto Active."
-    ];
     setInterval(() => {
         const logBox = document.getElementById('log-container');
         const entry = document.createElement('div');
-        entry.innerHTML = `> ${logs[Math.floor(Math.random() * logs.length)]}`;
+        entry.innerHTML = `> [NET] Monitoring RIPE Atlas Jakarta...`;
         logBox.appendChild(entry);
         logBox.scrollTop = logBox.scrollHeight;
-    }, 5000);
+    }, 10000);
 </script>
 
 </body>
