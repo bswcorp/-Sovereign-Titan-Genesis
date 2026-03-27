@@ -1,176 +1,58 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="localization" content="L10n-IDN">
-    <meta name="globalization" content="G11n-Titan">
-    <meta name="internationalization" content="i18n-Compatible">
-    <title>TITAN PORTAL | ARCHITECT ANDI M. HARPIANTO</title>
-    
-    <script src="https://cdnjs.cloudflare.com"></script>
-    <link href="https://fonts.googleapis.com" rel="stylesheet">
-
+    <title>Sovereign Titan Genesis | Portal Komando</title>
     <style>
-        :root { --gold: #D4AF37; --bg: #050505; --neon: #00f2ff; --red: #ff3e3e; }
-        body { background: var(--bg); color: white; font-family: 'Courier New', monospace; text-align: center; padding: 20px; overflow-x: hidden; }
-        .vault-frame { border: 4px solid var(--gold); padding: 30px; display: inline-block; background: rgba(0,0,0,0.9); border-radius: 20px; box-shadow: 0 0 40px var(--gold); animation: heartBeat 1.5s infinite; width: 100%; max-width: 550px; }
-        @keyframes heartBeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.01); border-color: var(--red); box-shadow: 0 0 50px var(--red); } }
-        .balance-display { font-size: 2.2rem; color: #fff; margin: 15px 0; text-shadow: 0 0 10px var(--neon); }
-        .btn { background: var(--neon); color: #000; border: none; padding: 12px; width: 100%; font-weight: bold; cursor: pointer; border-radius: 10px; margin-top: 10px; text-transform: uppercase; font-family: 'Orbitron', sans-serif; }
-        .section-box { margin-top: 25px; padding: 20px; border-radius: 15px; text-align: left; background: rgba(10,10,10,0.9); border: 1px solid #333; }
-        .cert-box { margin-top: 40px; padding: 30px; border: 5px double var(--gold); background: #000; position: relative; box-shadow: 0 0 50px var(--gold); }
-        .titan-card { width: 280px; border: 1px solid var(--gold); background: #000; padding: 15px; border-radius: 10px; text-align: left; transition: 0.3s; }
-        .titan-card:hover { border-color: var(--neon); box-shadow: 0 0 15px var(--neon); }
+        body { background: #0f172a; color: #38bdf8; font-family: monospace; padding: 20px; text-align: center; }
+        .box { border: 2px solid #38bdf8; padding: 20px; border-radius: 10px; max-width: 600px; margin: auto; }
+        h1 { color: #f8fafc; }
+        .menu-item { margin: 15px 0; text-align: left; background: #1e293b; padding: 10px; border-radius: 5px; }
+        button { background: #38bdf8; color: #0f172a; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; width: 100%; border-radius: 5px; }
+        button:hover { background: #f8fafc; }
+        input[type="radio"] { margin-right: 10px; }
     </style>
 </head>
 <body>
+    <div class="box">
+        <h1>🏛️ TITAN COMMAND PORTAL</h1>
+        <p>Architect: Andi Muhammad Harpianto</p>
+        <hr>
 
-    <div id="google_translate_element" style="position:fixed; bottom:20px; right:20px; z-index:9999;"></div>
-
-    <div class="vault-frame">
-        <h1 style="color: var(--gold); margin: 0; font-size: 1.5rem; letter-spacing: 3px;">QUORUM-STATE GENESIS</h1>
-        <p style="font-size: 0.7rem; opacity: 0.7; letter-spacing: 2px;">ARCHITECT: ANDI MUHAMMAD HARPIANTO</p>
-        
-        <div style="border-top: 1px solid #333; margin-top: 15px; padding-top: 15px;">
-            <div id="statusLog" style="color: var(--neon); font-size: 0.8rem;">● STANDBY MODE</div>
-            <div class="balance-display" id="aksaBalance">0 AKSA</div>
-            <div id="qstateBalance" style="color: var(--gold); font-size: 0.8rem;">0 $QSTATE</div>
+        <div class="menu-item">
+            <input type="radio" name="target" id="qst" checked> <label>QuStream (International Market)</label>
+            <button onclick="navigate('qst')">BUKA RADAR QST</button>
         </div>
 
-        <button class="btn" id="connectBtn">IDENTIFIKASI WALLET (CEK 1T)</button>
+        <div class="menu-item">
+            <input type="radio" name="target" id="search"> <label>AJ Search Engine (Mesin Pencari)</label>
+            <button onclick="navigate('search')">AKSES MESIN PENCARI</button>
+        </div>
 
-        <div class="section-box" style="border-color: var(--neon);">
-            <b style="color: var(--neon); font-size: 0.8rem;">📊 MARKET GOVERNANCE</b>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
-                <div style="background:#000; padding:10px; border-left:3px solid var(--gold);">
-                    <div style="font-size:0.5rem; color:var(--gold);">RESILIENCE INDEX</div>
-                    <div id="triValue" style="font-size:1.2rem; font-weight:bold; color:#4ade80;">98.2</div>
-                </div>
-                <div style="background:#000; padding:10px; border-left:3px solid var(--neon);">
-                    <div style="font-size:0.5rem; color:var(--neon);">PREDIKSI 1 AKSA</div>
-                    <div id="aksaPrice" style="font-size:1.2rem; font-weight:bold;">Rp 15.000</div>
-                </div>
-            </div>
-            <input type="range" id="riskSlider" min="0" max="100" value="10" style="width:100%; margin-top:15px;">
+        <div class="menu-item">
+            <input type="radio" name="target" id="edu"> <label>STG Homeschooling (Sekolah)</label>
+            <button onclick="navigate('edu')">MASUK RUANG EDUKASI</button>
         </div>
-    </div>
 
-    <!-- SERTIFIKAT KEDAULATAN -->
-    <div class="cert-box">
-        <h2 style="color: var(--gold); font-family: 'Orbitron';">CERTIFICATE OF SOVEREIGNTY</h2>
-        <div style="margin: 20px 0; border: 1px solid #333; padding: 15px;">
-            <p style="font-size: 0.8rem;">ARSITEK TUNGGAL:</p>
-            <h1 style="font-size: 1.3rem; color: #fff;">ANDI MUHAMMAD HARPIANTO</h1>
-            <h2 style="color: var(--neon); letter-spacing: 2px;">1.000.000.000.000 $QSTATE</h2>
+        <div class="menu-item">
+            <input type="radio" name="target" id="eth"> <label>Blockchain Ledger (1T $QSTATE)</label>
+            <button onclick="navigate('eth')">VERIFIKASI KONTRAK 0x3AA6</button>
         </div>
-        <div style="font-size: 0.6rem; color: #444; font-family: monospace;">
-            <!-- ALAMAT KONTRAK OTOMATIS DI SINI -->
-            <div id="certContractDisplay">CONTRACT: 0x3AA63941Fe0Ce029f4523c57A30C6dca3cB7343F</div>
-            <div id="certDate"></div>
-        </div>
-        <button class="btn" style="background:var(--gold); color:black; width:auto; padding:10px 20px;" onclick="window.print()">🖨️ PRINT CERTIFICATE</button>
-    </div>
 
-    <!-- TITAN CORE IDENTITY -->
-    <h3 style="color: var(--gold); letter-spacing: 5px; margin-top: 40px; font-family: 'Orbitron';">TITAN CORE IDENTITY</h3>
-    <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 20px; padding-bottom: 50px;">
-        <div class="titan-card">
-            <div style="font-weight: bold; color: var(--gold);">Mr. AGUS WIDIANTO</div>
-            <div style="font-size: 0.6rem; color: var(--neon);">STRATEGIC COMMISSIONER</div>
-        </div>
-        <div class="titan-card" style="border-width: 2px; box-shadow: 0 0 10px var(--gold);">
-            <div style="font-weight: bold; color: var(--gold);">ANDI M. HARPIANTO</div>
-            <div style="font-size: 0.6rem; color: var(--neon);">CHIEF ARCHITECT & FOUNDER</div>
-        </div>
-        <div class="titan-card">
-            <div style="font-weight: bold; color: #888;">Sir AI+ (AI ASSISTANT)</div>
-            <div style="font-size: 0.6rem; color: var(--neon);">CYBERNETIC INTELLIGENCE</div>
-        </div>
+        <p style="font-size: 0.8em; color: #94a3b8;">#BlockchainResurrection #TitanGenesis</p>
     </div>
 
     <script>
-        // ALAMAT KONTRAK UTAMA
-        const contractAddress = "0x3AA63941Fe0Ce029f4523c57A30C6dca3cB7343F";
-        const abi = ["function balanceOf(address) view returns (uint256)"];
-
-        document.getElementById('certDate').innerText = "TIMESTAMP: " + new Date().toUTCString();
-
-        document.getElementById('connectBtn').onclick = async () => {
-            if (window.ethereum) {
-                const provider = new ethers.BrowserProvider(window.ethereum);
-                const accounts = await provider.send("eth_requestAccounts", []);
-                const contract = new ethers.Contract(contractAddress, abi, provider);
-                const bal = await contract.balanceOf(accounts[0]);
-                const qstate = ethers.formatUnits(bal, 18);
-                document.getElementById('aksaBalance').innerText = (parseFloat(qstate) * 100000000).toLocaleString('id-ID') + " AKSA";
-                document.getElementById('qstateBalance').innerText = qstate + " $QSTATE";
-                document.getElementById('statusLog').innerText = "● JANTUNG TERHUBUNG";
-            }
-        };
-
-        const riskSlider = document.getElementById('riskSlider');
-        riskSlider.oninput = function() {
-            let risk = parseInt(this.value);
-            document.getElementById('triValue').innerText = (90 + (risk * 0.1)).toFixed(1);
-            document.getElementById('aksaPrice').innerText = "Rp " + (15000 + (risk * 250)).toLocaleString('id-ID');
-        };
-
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'id'}, 'google_translate_element');
+        function navigate(type) {
+            const links = {
+                qst: 'https://coinmarketcap.com',
+                search: 'https://github.com',
+                edu: 'https://github.com',
+                eth: 'https://etherscan.io'
+            };
+            window.open(links[type], '_blank');
         }
     </script>
-    <script src="https://translate.google.com"></script>
-    <!-- GERBANG OTORITAS KAPTEN (LOGIN HP) -->
-<div id="titanGuard" style="position:fixed; top:0; left:0; width:100%; height:100%; background:var(--bg); z-index:10000; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-    <div style="border: 2px solid var(--gold); padding: 40px; border-radius: 20px; background:#000; box-shadow: 0 0 50px var(--gold); text-align:center; max-width:400px;">
-        <h2 style="color: var(--gold); font-family: 'Orbitron'; letter-spacing: 5px;">TITAN GUARD</h2>
-        <p style="font-size: 0.7rem; color: #666; margin-bottom: 20px;">IDENTIFIKASI PEMILIK SAH (KAPTEN)</p>
-        
-        <input type="tel" id="hpInput" placeholder="MASUKKAN NOMOR HP BAPAK" style="text-align:center; font-size: 1.2rem; letter-spacing: 3px; border: 1px solid var(--neon);">
-        
-        <button class="btn" onclick="verifyCaptain()" style="margin-top: 20px;">BUKA BRANKAS GENESIS</button>
-        <p id="errorMsg" style="color:var(--red); font-size:0.7rem; margin-top:10px; display:none;">AKSES DITOLAK: IDENTITAS TIDAK DIKENAL</p>
-    </div>
-</div>
-
-<script>
-    function verifyCaptain() {
-        const inputHP = document.getElementById('hpInput').value;
-        const nomorResmi = "085817200806"; // <--- GANTI DENGAN NOMOR HP BAPAK
-
-        if (inputHP === nomorResmi) {
-            // Suara Berhasil (Simulasi Tik-Tik)
-            alert("SELAMAT DATANG, KAPTEN ANDI MUHAMMAD HARPIANTO. SISTEM SIAGA!");
-            document.getElementById('titanGuard').style.display = "none"; // Buka Gerbang
-        } else {
-            document.getElementById('errorMsg').style.display = "block";
-            // Catat ke Sentinel (Mendeteksi Pengintai)
-            console.log("SENTINEL ALERT: Percobaan Masuk Ilegal dari No: " + inputHP);
-        }
-    }
-</script>
-   <body>
-    <!-- 1. GERBANG TITAN GUARD (Kode Bapak tadi) -->
-    <!-- 2. ISI WEBSITE (Vault Frame, Sertifikat, dll) -->
-   </body>
-<!-- TITAN GENESIS QR CODE PANEL -->
-<div id="titanQRCode" style="margin-top: 50px; padding: 30px; border: 3px double var(--gold); background: #000; display: inline-block; border-radius: 20px; box-shadow: 0 0 40px rgba(212, 175, 55, 0.4); text-align: center;">
-    
-    <h3 style="color: var(--gold); font-family: 'Orbitron'; letter-spacing: 3px; margin-bottom: 20px;">GENESIS CONTRACT QR</h3>
-    
-    <!-- GENERATOR QR CODE (Menggunakan API Global agar Cepat) -->
-    <div style="background: white; padding: 15px; display: inline-block; border-radius: 10px;">
-        <img src="https://api.qrserver.com" alt="Titan QR" style="display: block;">
-    </div>
-
-    <div style="margin-top: 20px; font-family: monospace; font-size: 0.7rem; color: var(--neon);">
-        <div style="word-break: break-all; width: 230px; margin: auto;">0x3AA63941Fe0Ce029f4523c57A30C6dca3cB7343F</div>
-        <div style="margin-top: 10px; color: var(--gold); font-weight: bold; letter-spacing: 2px;">$QSTATE | 1,000,000,000,000</div>
-    </div>
-
-    <p style="font-size: 0.6rem; color: #555; margin-top: 15px;">"Scan untuk Memverifikasi Kedaulatan Digital"</p>
-</div>
-    
 </body>
 </html>
