@@ -1,47 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"><title>GARAGE HOME | STG DIGITAL HOSPITAL</title>
+    <meta charset="UTF-8"><title>GARAGE HOME | DIGITAL HOSPITAL & ISOLATION</title>
     <style>
-        :root { --neon: #00f2ff; --warn: #ff0000; --bg: #050505; }
+        :root { --neon: #00f2ff; --warn: #ff0000; --gold: #ffd700; --bg: #050505; }
         body { background: var(--bg); color: #e2e8f0; font-family: 'Courier New', monospace; margin: 0; text-align: center; }
         .header { border-bottom: 2px solid var(--neon); padding: 20px; background: #0a0a0a; box-shadow: 0 0 15px var(--neon); }
-        .hospital-wing { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
-        .ward { border: 1px solid #333; padding: 15px; background: #111; border-radius: 8px; }
-        .heartbeat { color: var(--warn); font-size: 2rem; animation: pulse 1s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-        .btn-swiss { background: var(--warn); color: white; border: none; padding: 10px; width: 100%; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; padding: 20px; }
+        .ward { border: 1px solid #333; padding: 15px; background: #111; border-radius: 8px; transition: 0.3s; }
+        .ward:hover { border-color: var(--neon); }
+        .isolation-vault { border: 2px solid var(--gold) !important; background: rgba(255, 215, 0, 0.05); box-shadow: 0 0 10px var(--gold); }
+        .heartbeat { color: var(--warn); font-size: 1.5rem; animation: pulse 1s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .btn-action { background: var(--neon); color: black; border: none; padding: 8px; width: 100%; cursor: pointer; font-weight: bold; margin-top: 5px; }
+        .btn-swiss { background: var(--warn); color: white; border: none; padding: 12px; width: 100%; cursor: pointer; font-weight: bold; margin-top: 10px; }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>🏛️ GARAGE HOME: DIGITAL HOSPITAL</h1>
-        <p>REHABILITASI TRANSFORMASI DIGITAL | STG GOVERNMENT</p>
+        <p>STG GOVERNMENT | DATA RECONSTRUCTION CENTER</p>
     </div>
 
-    <div class="hospital-wing">
+    <div class="grid-container">
+        <!-- RUANG ISOLASI DATA (NEW) -->
+        <div class="ward isolation-vault">
+            <h3 style="color: var(--gold);">🟡 RUANG ISOLASI DATA</h3>
+            <p style="font-size: 0.8rem;">Status: ENCRYPTED & AIR-GAPPED</p>
+            <p style="color: var(--gold); font-weight: bold;">[ QUBICOIN LEGACY ASSETS ]</p>
+            <button class="btn-action" onclick="alert('🔐 AKSES TERBATAS: MEMBUTUHKAN KUNCI VETO ARCHITECT')">UNLOCK VAULT</button>
+        </div>
+
         <div class="ward">
             <h3>🏥 SUAKA DIGITAL</h3>
-            <p>Status: Merawat Data IPv4 yang Terlantar</p>
-            <div class="heartbeat">💓 72 BPM</div>
+            <p>Merawat Pasien Transformasi Gagal</p>
+            <div class="heartbeat">💓 RECONSTRUCTING...</div>
         </div>
+
         <div class="ward">
             <h3>⚔️ ALUTSISTA GALLERY</h3>
-            <p>Status: Upgrade Mesin Perang AI</p>
-            <button onclick="alert('⚡ UNIT KINETIK READY')">CEK UNIT</button>
+            <p>Penyempurnaan Mesin Perang AI</p>
+            <button class="btn-action" onclick="window.open('https://github.com', '_blank')">LIHAT GALLERY</button>
         </div>
     </div>
 
-    <div style="padding: 20px;">
+    <div style="padding: 20px; max-width: 600px; margin: auto;">
         <div class="ward" style="border-color: var(--warn);">
-            <h3>🇨🇭 SWISS FINANCIAL HUB</h3>
-            <p>Jalur Metaportasi: RIPE-ATLAS-IPv6</p>
-            <button class="btn-swiss" onclick="location.href='https://bswcorp.github.io'">OTORISASI SWIFT/VISA</button>
+            <h3 style="color: var(--warn);">🇨🇭 SWISS FINANCIAL HUB</h3>
+            <p>Metaportasi Jalur: RIPE-ATLAS-IPv6-REPATLAS</p>
+            <button class="btn-swiss" onclick="location.href='https://bswcorp.github.io'">AUTHORIZE SWIFT/VISA</button>
         </div>
     </div>
 
     <footer style="font-size: 0.7rem; color: #444; padding: 20px;">
-        BY ARCHITECT ANDI M. HARPIANTO | #STG #GLORY #GOSPEL #GOLD
+        BY ARCHITECT ANDI M. HARPIANTO | #STG #GLORY #METAPORTASI
     </footer>
 </body>
 </html>
