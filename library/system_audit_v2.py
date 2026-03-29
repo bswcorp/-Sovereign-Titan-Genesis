@@ -1,24 +1,16 @@
 import time, os
-
 def run():
     os.system('clear')
-    # Ambil data dari Vol 8
     last_trf = 0
     if os.path.exists('last_transfer.tmp'):
-        with open('last_transfer.tmp', 'r') as f:
-            last_trf = int(f.read())
+        with open('last_transfer.tmp', 'r') as f: last_trf = f.read()
 
     print("==================================================")
-    print("🏛️  STG CIVILIZATION READINESS - HOT HUB AUDIT")
-    print(f"📡 TIMESTAMP: {time.strftime('%Y-%m-%d %H:%M:%S')}")
-    print("==================================================")
-    print(f"\n📈 HOT WALLET INFLOW: +{last_trf:,} $QSTATE")
-    print(f"🔥 HOT HUB STATUS   : [ACTIVE & LIQUID]")
-    print("🛡️  VAULT INTEGRITY  : [VERIFIED]")
-    print("\n--------------------------------------------------")
-    print("✅ BALANCE INCREASED IN HOT LEDGER.")
-    print("UNIFIED SYSTEM: ALL SOVEREIGN PILLARS SECURED.")
+    print("🏛️  STG AUDIT: EMISSION MONITORING (WEB 4.0)")
+    print(f"📡 GLOBAL INFLOW: +{int(last_trf):,} $QSTATE")
+    print("--------------------------------------------------")
+    print("✅ STATUS: MIRRORING SUCCESSFUL. VAULT INTACT.")
+    print("💡 NOTE  : THIS IS A SOVEREIGN ASSET EMISSION.")
     print("==================================================")
     input("\n[ENTER] Back...")
-
 if __name__ == "__main__": run()

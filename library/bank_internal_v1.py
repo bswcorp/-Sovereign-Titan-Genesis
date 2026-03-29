@@ -1,47 +1,32 @@
-import time, os, sys, threading
-
-running = True
-
-def live_dashboard():
-    while running:
-        t = time.localtime()
-        clock_wib = time.strftime("%H:%M:%S", t)
-        clock_ny = "09:22:15" # INTEL STEALTH LOCK
-        CYAN, WHITE, GREY, RESET = "\033[38;5;81m", "\033[38;5;255m", "\033[38;5;244m", "\033[0m"
-        sys.stdout.write("\033[s\033[H")
-        print(f"{GREY}╒" + "═"*62 + "╕")
-        print(f"{CYAN}│  [ STG SUPREME BANKING HUB ]{WHITE}{' '*(11)}WIB: {clock_wib}  │")
-        print(f"{GREY}├" + "─"*31 + "┬" + "─"*30 + "┤")
-        print(f"{GREY}│ {CYAN}NY-TIME: {clock_ny}          {GREY}│ {WHITE}DATE: {time.strftime('%A | %d-%m-%Y').upper()}  │")
-        print(f"{GREY}╘" + "═"*31 + "╧" + "═"*30 + "╛" + RESET)
-        sys.stdout.write("\033[u\033[K")
-        sys.stdout.flush()
-        time.sleep(1)
+import time, os
 
 def run():
-    global running
-    running = True
-    os.system('clear')
-    threading.Thread(target=live_dashboard, daemon=True).start()
-    print("\n" * 7)
-    WHITE, CYAN, GREEN, GOLD, RESET = "\033[38;5;255m", "\033[38;5;81m", "\033[38;5;46m", "\033[38;5;214m", "\033[0m"
-    print(f"  {WHITE}▶ VAULT CAP    : {GOLD}1,000,000,000,000 $QSTATE{RESET}")
-    print(f"  {WHITE}▶ STATUS       : {GREEN}SOVEREIGN INJECTION READY{RESET}")
-    print("  " + "—" * 60)
-    try:
-        while True:
-            amt = input(f"\n  {WHITE}💸 ENTER AMOUNT: {RESET}").strip()
-            if amt.lower() == 'q': running = False; break
-            if amt.isdigit():
-                # EFEK VISUAL TOMBOL SEND (FLASH GREEN)
-                print(f"\n  {GREEN} [ SENDING... ] {RESET}", end="")
-                sys.stdout.flush()
-                time.sleep(0.5)
-                # ANIMASI INJEKSI
-                print(f"\r  {GOLD}🚀 [ INJECTED: {int(amt):,} $QSTATE ] {RESET}")
-                with open('last_transfer.tmp', 'w') as f: f.write(amt)
-                time.sleep(1.5)
-            print("\033[A\033[K\033[A\033[K\033[A\033[K") 
-    except KeyboardInterrupt: running = False
+    while True:
+        os.system('clear')
+        t = time.localtime()
+        # HEADER BOLD INDUSTRIAL
+        print("\033[1;31m" + "█"*62)
+        print(f"   🏛️  THE INFINITE LIQUIDITY PROTOCOL - STG v82.0")
+        print(f"   🛡️  STATUS: SOVEREIGN INJECTION ACTIVE | {time.strftime('%H:%M', t)}")
+        print("█"*62 + "\033[0m")
+        
+        # DISPLAY APA ADANYA
+        print(f"\033[1;37m💰 TOTAL VAULT   : 1,000,000,000,000 $QSTATE")
+        print(f"📊 LIQUIDITY CAP : UNLIMITED EMISSION ACTIVE")
+        print("-" * 62 + "\033[0m")
+        
+        amt = input("\n💸 COMMAND AMOUNT TO INJECT (Enter to Exit): ").strip()
+        if not amt: break
+            
+        if amt.isdigit():
+            print("\033[1;32m🚀 [ INITIATING SOVEREIGN EMISSION... ]\033[0m", end="\r")
+            time.sleep(0.5)
+            # Pencatatan Injeksi Langsung
+            with open('last_transfer.tmp', 'w') as f: f.write(amt)
+            print(f"\033[1;33m🔥 SUCCESS: {int(amt):,} $QSTATE EMITTED TO GLOBAL HUB!\033[0m")
+            time.sleep(1)
+        else:
+            print("⚠️ INVALID."); time.sleep(1)
 
-if __name__ == "__main__": run()
+if __name__ == "__main__":
+    run()
