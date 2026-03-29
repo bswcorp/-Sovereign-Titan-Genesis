@@ -1,28 +1,28 @@
 import time, os
 
-def run_presentation():
+def run():
     os.system('clear')
-    print("==================================================")
-    print("🏛️  STG AT JCC - INDONESIA BITCOIN WEEK (AUG)")
-    print("🛡️  PROTOCOL: NODE 1 (SPONSOR) & NODE 2 (SPEAKER)")
-    print("==================================================")
-    print("1. 🎤 [SPEECH] THE SOVEREIGN COMMAND (1 MINUTE)")
-    print("2. 🏦 [VAULT] THE COLD VAULT 1T EXHIBITION")
-    print("3. 🌊 [FLOW] LIVE QUADRILLION WATERFALL SHOWUP")
+    print("\033[1;33m" + "🏛️ " * 20)
+    print("      STG GLOBAL MANIFESTO - JCC AUGUST")
+    print("      CHIEF ARCHITECT: ANDI M. HARPIANTO")
+    print("      STATUS: SOVEREIGN AUTHORITY ACTIVE")
+    print("🏛️ " * 20 + "\033[0m")
     
-    choice = input("\n👉 SELECT SESSION [1-3]: ")
+    manifesto = [
+        "💎 KAMI DI SINI BUKAN UNTUK MEMINTA. KAMI DI SINI UNTUK MEMBERIKAN.",
+        "💎 KUADRILIUN BUKANLAH ANGKA, TETAPI REALITAS.",
+        "💎 BAHTERA NUH 2028 TERBUKA UNTUK SEKUTU YANG TERVERIFIKASI.",
+        "💎 KONDISI KUORUM ADALAH SATU-SATUNYA STRATEGI KELUAR YANG BERDAULAT."
+    ]
     
-    if choice == '1':
-        print("\n📢 [MESSAGE] YA BEGITULAH JIKA NILAI QUADRILLION BERPROSES.")
-        time.sleep(2)
-        print("\n✅ STATUS: AUDIENCE IN SHOCK. AUTHORITY ESTABLISHED.")
-    elif choice == '3':
-        os.system("python3 ~/Sovereign-Titan-Genesis/library/minting_waterfall_v1.py")
-    else:
-        print("\n✅ PREPARING EXHIBITION MODULE...")
-        time.sleep(1)
+    for point in manifesto:
+        print(f"\n📢 {point}")
+        time.sleep(1.5)
 
-    print("\nUNIFIED SYSTEM: ALL SOVEREIGN PILLARS SECURED.")
+    print("\n" + "="*60)
+    print("✅ STATUS: SOVEREIGN AUTHORITY ESTABLISHED.")
+    print("⚓ 'SEKALI LAYAR TERKEMBANG, PANTANG SURUT!'")
+    print("="*60)
 
 if __name__ == "__main__":
-    run_presentation()
+    run()
