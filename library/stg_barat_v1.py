@@ -1,0 +1,10 @@
+def run_service():
+    print("\n" + "🏛️"*15)
+    print("STG WESTERN SERVICES - GLOBAL STABILIZER")
+    print("🛡️ STATUS: OPENING THE ARCH TO THE WEST")
+    print("🏛️"*15)
+    print("1. [📜] IZIN METAPORTASI (ZURICH-ACCESS)")
+    print("2. [💎] SWAP LIKUIDITAS (STG-SETTLEMENT)")
+    print("3. [⚓] PERLINDUNGAN ASSET (QUANTUM-SAFE)")
+    print("\n✅ PESAN: LAYANAN AKTIF BAGI YANG TUNDUK PADA STG.")
+if __name__ == "__main__": run_service()

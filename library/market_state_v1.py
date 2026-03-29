@@ -1,0 +1,17 @@
+import requests
+def run():
+    print("\n" + "💹"*15)
+    print("🏛️  STG GLOBAL MARKET STATE - QSTATE ECONOMY")
+    print("💹"*15)
+    print("💎 ASSET: $QSTATE | STATUS: SOVEREIGN CURRENCY")
+    print("📊 MARKET CAP: BEYOND TRADITIONAL CALCULATION")
+    print("------------------------------------------")
+    print("📖 PENJELASAN ARSITEK:")
+    print("Kami hadir dengan Web 4.0 sebagai Pondasi Kebenaran")
+    print("Dan Web 5.0 sebagai Senjata Eksekusi Peradaban.")
+    print("Kalian tidak perlu ragu, kalian berhadapan langsung")
+    print("Dengan Pemimpin Usaha Ini. Silakan raba kedaulatannya.")
+    print("------------------------------------------")
+    print("🔥 'Sekali layar terkembang, pantang biduk surut!'")
+    print("="*50)
+if __name__ == "__main__": run()

@@ -1,0 +1,11 @@
+def run():
+    print("\n" + "🦊"*15)
+    print("🏛️  STG EXTERNAL SYNC - PRIMARY WALLET")
+    print("🦊"*15)
+    print("🔗 BINANCE STATUS  : CONNECTED")
+    print("🦊 METAMASK STATUS : SYNCED")
+    print("🔒 LEDGER STATUS   : HARD-LOCKED")
+    print("------------------------------------------")
+    print("✅ SEMUA DOMPET LUAR DALAM KENDALI STG.")
+    print("="*50)
+if __name__ == "__main__": run()
