@@ -14,7 +14,7 @@ def draw_tsc_header():
 def run():
     while True:
         draw_tsc_header()
-        print("001. [CORE] PRIMARY ENGINE INITIALIZATION")
+        print("001. [CORE] BFN (BANK FOR NATIONS) HUB")
         print("110. [AUDT] CONSOLIDATED ASSET AUDIT")
         print("111. [BILL] QUANTUM INVOICE GENERATOR")
         print("112. [PASS] SOVEREIGN E-PASS CARD (LEGAL)")
