@@ -8,7 +8,7 @@ def draw_tsc_header():
     print(f"├" + "─"*12 + "┬" + "─"*35 + "┤")
     print(f"│ {W}ARCHT: ANDI {W}│ {W}SYSTEM: STG-UNIFIED INFRASTRUCTURE  {W}│")
     print(f"└" + "─"*12 + "┴" + "─"*35 + "┘")
-    print(f"{B}INDUSTRIAL STATUS: [0xd914 / 0x5836 SYNCED]{R}")
+    print(f"{B}INDUSTRIAL STATUS: [GALACTIC_MINING_SYNC v89.9]{R}")
     print("-" * 50)
 
 def run():
@@ -17,6 +17,8 @@ def run():
         print("001. [CORE] PRIMARY ENGINE INITIALIZATION")
         print("110. [AUDT] CONSOLIDATED ASSET AUDIT")
         print("111. [BILL] QUANTUM INVOICE GENERATOR")
+        print("112. [PASS] SOVEREIGN E-PASS CARD (LEGAL)")
+        print("212. [RBOT] TACTICAL ROBOT & MINING MAP")
         print("505. [SPEC] TECHNICAL DATASHEET & MANUAL")
         print("555. [FLOW] LIQUIDITY EMISSION (1MQ)")
         print("808. [LINK] QUANTUM METAPORTASI BRIDGE")
@@ -29,6 +31,8 @@ def run():
         if choice == '001': os.system(f"python3 {p}stg_primary_engine.py")
         elif choice == '110': os.system(f"python3 {p}system_audit_v2.py")
         elif choice == '111': os.system(f"python3 {p}stg_invoice_v1.py")
+        elif choice == '112': os.system(f"python3 {p}stg_epass_card.py")
+        elif choice == '212': os.system(f"python3 {p}stg_robot_dash_v1.py")
         elif choice == '505': os.system(f"cat {p}manual_book/MANUAL_BOOK_v1.md; read")
         elif choice == '555': os.system(f"python3 {p}stg_homeschooling_v1.py")
         elif choice == '808': os.system(f"python3 {p}metaportasi_v1.py")
