@@ -6,9 +6,9 @@ def draw_tsc_header():
     print(f"{W}┌" + "─"*48 + "┐")
     print(f"│ {G}● ACTIVE {W}│ {B}  THE SOVEREIGN CORE - TSC v1.0       {W}│")
     print(f"├" + "─"*12 + "┬" + "─"*35 + "┤")
-    print(f"│ {W}ARCHT: ANDI {W}│ {W}SYSTEM: AEROSPACE-GRADE FIRMWARE    {W}│")
+    print(f"│ {W}ARCHT: ANDI {W}│ {W}SYSTEM: INDUSTRIAL REVENUE HUB      {W}│")
     print(f"└" + "─"*12 + "┴" + "─"*35 + "┘")
-    print(f"{B}INDUSTRIAL STATUS: [ZERO_DEFECT_PROTOCOL v101.0]{R}")
+    print(f"{B}INDUSTRIAL STATUS: [REVENUE_MODE_ACTIVE v103.1]{R}")
     print("-" * 50)
 
 def run():
@@ -21,14 +21,16 @@ def run():
         print("113. [LOYL] FUTURE LOYALTY & REWARD LOG")
         print("114. [CERT] E-CERTIFICATE: KHAMEL M. GUFRANY")
         print("115. [DBUG] ZERO-BUG INTEGRITY SENSOR")
+        print("116. [REVN] NFC-NFT REVENUE MERCHANT")
         print("212. [RBOT] TACTICAL ROBOT & MINING MAP")
+        print("222. [AUTO] SELF-MANAGED CUSTODIAN")
         print("505. [SPEC] 3-MINUTE PITCH & TECH MANUAL")
         print("555. [FLOW] LIQUIDITY TSUNAMI (1MQ)")
         print("808. [LINK] QUANTUM METAPORTASI BRIDGE")
         print("810. [EXIT] SECURE SYSTEM TERMINATION")
         print("-" * 50)
         
-        choice = input("ENTER INDUSTRIAL CODE: ").strip()
+        choice = input("ENTER COMMAND CODE: ").strip()
         p = os.path.expanduser("~/Sovereign-Titan-Genesis/library/")
         
         map_files = {
@@ -39,7 +41,9 @@ def run():
             '113': 'stg_loyalty_ledger.py',
             '114': 'stg_shareholder_cert.py',
             '115': 'stg_debug_sensor.py',
+            '116': 'stg_nft_hub.py',
             '212': 'stg_robot_dash_v1.py',
+            '222': 'stg_auto_custodian.py',
             '555': 'stg_homeschooling_v1.py',
             '808': 'metaportasi_v1.py'
         }
@@ -55,5 +59,7 @@ def run():
             print("\nERR: INVALID_CODE"); time.sleep(1)
 
 if __name__ == "__main__":
-    try: run()
-    except KeyboardInterrupt: sys.exit()
+    try:
+        run()
+    except KeyboardInterrupt:
+        sys.exit()
