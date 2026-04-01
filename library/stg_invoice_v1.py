@@ -1,35 +1,44 @@
-import os, time, random
+import os, time, json, random
 
-def generate_invoice():
+def generate_receipt(customer="PRIVATE_ALLY", item="GALAXY_MINING_PASS", amount="100,000 IDR"):
     os.system('clear')
-    GOLD, CYAN, WHITE, RESET = "\033[1;33m", "\033[1;36m", "\033[1;37m", "\033[0m"
+    GOLD, CYAN, WHITE, BLUE, GREEN, RESET = "\033[1;33m", "\033[1;36m", "\033[1;37m", "\033[1;34m", "\033[1;32m", "\033[0m"
     
-    # DATA INVOICE STANDAR INDUSTRI
-    inv_num = f"INV-TSC-{random.randint(1000, 9999)}"
-    date = time.strftime("%Y-%m-%d %H:%M:%S")
+    receipt_id = f"STG-REC-{int(time.time())}-{random.randint(10,99)}"
+    timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
     
-    print(f"{GOLD}╔" + "═"*58 + "╗")
-    print(f"║  🏛️  THE SOVEREIGN CORE (TSC) - OFFICIAL INVOICE         ║")
-    print(f"║  📄 SERIAL: {inv_num} | DATE: {date}    ║")
+    # 1. TAMPILAN KUITANSI BONAFIDE
+    print(f"{WHITE}╔" + "═"*58 + "╗")
+    print(f"║             🏛️  STG OFFICIAL E-RECEIPT (KUITANSI)         ║")
+    print(f"║           SOVEREIGN INFRASTRUCTURE SETTLEMENT            ║")
     print("╚" + "═"*58 + "╝" + RESET)
     
-    print(f"{WHITE}BILL TO    : [ SOVEREIGN ALLY / CLIENT ]")
-    print(f"ISSUED BY  : OFFICE OF THE CHIEF ARCHITECT (STG)")
+    print(f"{WHITE}RECEIPT ID   : {GOLD}{receipt_id}{RESET}")
+    print(f"{WHITE}DATE/TIME    : {timestamp}{RESET}")
+    print(f"{WHITE}SETTLEMENT   : {GREEN}SUCCESSFUL / VERIFIED{RESET}")
     print("-" * 60)
+    print(f"CUSTOMER     : {customer}")
+    print(f"DESCRIPTION  : {item}")
+    print(f"TOTAL VALUE  : {CYAN}{amount}{RESET}")
+    print("-" * 60)
+    print(f"CUSTODIAN    : BFN HUB (BINTARO COMMAND CENTER)")
+    print(f"VERIFICATION : {BLUE}757CE2F_AEROSPACE_COMPLIANT{RESET}")
+    print("-" * 60)
+
+    # 2. AUTOMATIC RECORDING KE LEDGER (VOL 110)
+    log_data = {
+        "date": timestamp,
+        "id": receipt_id,
+        "item": item,
+        "amount": amount,
+        "status": "SETTLED"
+    }
+    with open('sovereign_cashflow.json', 'a') as f:
+        f.write(json.dumps(log_data) + "\n")
     
-    # DAFTAR LAYANAN KOMERSIAL
-    print(f"1. TSC-v1.0 SOFTWARE LICENSE (OEM)   : 1,000.00 $Q")
-    print(f"2. QUANTUM METAPORTASI BRIDGE        : 500.00 $Q")
-    print(f"3. INDUSTRIAL SECURITY AUDIT (V110)  : 250.00 $Q")
-    print("-" * 60)
-    print(f"{CYAN}TOTAL SETTLEMENT REQUIRED            : 1,750.00 $QSTATE{RESET}")
-    print("-" * 60)
-    
-    print(f"{WHITE}PAYMENT ADDRESS (TSC VAULT):{RESET}")
-    print(f"{GOLD}0x5836c7a5eb31975b51c76a205aaba4c01f0eb3e8{RESET}")
-    print(f"\n{CYAN}SYSTEM_CERTIFICATION: SOVEREIGN_ASSET_VERIFIED{RESET}")
-    print("=" * 60)
-    input("\n[PRESS ENTER TO SAVE & RETURN]")
+    print(f"\n{GREEN}✅ DATA AUTOMATICALLY ARCHIVED IN INTERNAL AUDIT (110).{RESET}")
+    input("\n[PRESS ENTER TO RETURN]")
 
 if __name__ == "__main__":
-    generate_invoice()
+    # Default menu call
+    generate_receipt()

@@ -16,7 +16,7 @@ def run():
         draw_tsc_header()
         print("001. [CORE] BFN ROUTING & TRANSACTION HUB")
         print("110. [AUDT] CONSOLIDATED ASSET AUDIT")
-        print("111. [BILL] QUANTUM INVOICE GENERATOR")
+        print("111. [BILL] E-KUITANSI QUANTUM INVOICE GENERATOR FISCAL AUDIT")
         print("112. [PASS] BINTARO TRAFFIC VISUALIZATION")
         print("113. [LOYL] FUTURE LOYALTY & REWARD LOG")
         print("114. [CERT] E-CERTIFICATE: KHAMEL M. GUFRANY")
