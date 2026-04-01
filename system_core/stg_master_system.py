@@ -6,9 +6,9 @@ def draw_tsc_header():
     print(f"{W}┌" + "─"*48 + "┐")
     print(f"│ {G}● ACTIVE {W}│ {B}  THE SOVEREIGN CORE - TSC v1.0       {W}│")
     print(f"├" + "─"*12 + "┬" + "─"*35 + "┤")
-    print(f"│ {W}ARCHT: ANDI {W}│ {W}SYSTEM: STG-UNIFIED INFRASTRUCTURE  {W}│")
+    print(f"│ {W}ARCHT: ANDI {W}│ {W}SYSTEM: AEROSPACE-GRADE FIRMWARE    {W}│")
     print(f"└" + "─"*12 + "┴" + "─"*35 + "┘")
-    print(f"{B}INDUSTRIAL STATUS: [HEIR_PROTECTION_ACTIVE v99.0]{R}")
+    print(f"{B}INDUSTRIAL STATUS: [ZERO_DEFECT_PROTOCOL v101.0]{R}")
     print("-" * 50)
 
 def run():
@@ -20,6 +20,7 @@ def run():
         print("112. [PASS] BINTARO TRAFFIC VISUALIZATION")
         print("113. [LOYL] FUTURE LOYALTY & REWARD LOG")
         print("114. [CERT] E-CERTIFICATE: KHAMEL M. GUFRANY")
+        print("115. [DBUG] ZERO-BUG INTEGRITY SENSOR")
         print("212. [RBOT] TACTICAL ROBOT & MINING MAP")
         print("505. [SPEC] 3-MINUTE PITCH & TECH MANUAL")
         print("555. [FLOW] LIQUIDITY TSUNAMI (1MQ)")
@@ -27,23 +28,31 @@ def run():
         print("810. [EXIT] SECURE SYSTEM TERMINATION")
         print("-" * 50)
         
-        choice = input("ENTER COMMAND CODE: ").strip()
-        p = "/home/userland/Sovereign-Titan-Genesis/library/"
+        choice = input("ENTER INDUSTRIAL CODE: ").strip()
+        p = os.path.expanduser("~/Sovereign-Titan-Genesis/library/")
         
-        if choice == '001': os.system(f"python3 {p}stg_primary_engine.py")
-        elif choice == '110': os.system(f"python3 {p}system_audit_v2.py")
-        elif choice == '111': os.system(f"python3 {p}stg_invoice_v1.py")
-        elif choice == '112': os.system(f"python3 {p}stg_epass_card.py")
-        elif choice == '113': os.system(f"python3 {p}stg_loyalty_ledger.py")
-        elif choice == '114': os.system(f"python3 {p}stg_shareholder_cert.py")
-        elif choice == '212': os.system(f"python3 {p}stg_robot_dash_v1.py")
-        elif choice == '505': 
+        map_files = {
+            '001': 'stg_primary_engine.py',
+            '110': 'system_audit_v2.py',
+            '111': 'stg_invoice_v1.py',
+            '112': 'stg_epass_card.py',
+            '113': 'stg_loyalty_ledger.py',
+            '114': 'stg_shareholder_cert.py',
+            '115': 'stg_debug_sensor.py',
+            '212': 'stg_robot_dash_v1.py',
+            '555': 'stg_homeschooling_v1.py',
+            '808': 'metaportasi_v1.py'
+        }
+
+        if choice in map_files:
+            os.system(f"python3 {p}{map_files[choice]}")
+        elif choice == '505':
             os.system(f"cat {p}manual_book/MANUAL_BOOK_v1.md")
-            input("\n[ENTER] TO RETURN...")
-        elif choice == '555': os.system(f"python3 {p}stg_homeschooling_v1.py")
-        elif choice == '808': os.system(f"python3 {p}metaportasi_v1.py")
-        elif choice == '810': sys.exit()
-        else: print("\nERR: INVALID_INPUT"); time.sleep(1)
+            input("\n[PRESS ENTER TO RETURN]")
+        elif choice == '810':
+            sys.exit()
+        else:
+            print("\nERR: INVALID_CODE"); time.sleep(1)
 
 if __name__ == "__main__":
     try: run()
