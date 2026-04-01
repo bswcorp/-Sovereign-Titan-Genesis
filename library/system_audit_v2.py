@@ -3,24 +3,24 @@ def run():
     os.system('clear')
     GOLD, CYAN, WHITE, BLUE, RESET = "\033[1;33m", "\033[1;36m", "\033[1;37m", "\033[1;34m", "\033[0m"
     print(f"{BLUE}==================================================")
-    print("      STG TRANSACTION AUDIT: T.K.O REPORT")
-    print("      PROTOCOL: AEROSPACE ZERO-DEFECT v101.5")
+    print("      STG INFRASTRUCTURE: CORE VS LOGIC ALIGNMENT")
+    print("      STATUS: H2K DEPLOYED AS SYSTEM CORE")
     print("==================================================" + RESET)
     
-    audit_results = [
-        ("🏦 BFN_ROUTING   ", "100% SUCCESS / ZERO LATENCY"),
-        ("🌊 EMISSION_FLOW ", "STABLE / BLUE-TSUNAMI ACTIVE"),
-        ("🛡️  INTEGRITY_CHK ", "ZERO-BUG DETECTED (RUST-SAFE)"),
-        ("🏛️  MARKET_STATUS ", "COMPETITORS: T.K.O / DEFEATED")
+    alignment = [
+        ("⚙️  LOGIC LAYER ", "PQC / METAPORTASI / 1MQ RULES"),
+        ("🏛️  CORE LAYER  ", "H2K ENCRYPTED IDENTITY / BFN VAULT"),
+        ("🛡️  INTEGRITY   ", "ZERO-BUG AEROSPACE GRADE"),
+        ("🚀 VERDICT     ", "H2K IS THE HEART, NOT THE PLAN.")
     ]
     
-    for label, res in audit_results:
-        print(f"[{WHITE}AUDIT_RESULT{RESET}] {label} : {GOLD}{res}{RESET}")
+    for layer, desc in alignment:
+        print(f"[{WHITE}SYSTEM_ARCH{RESET}] {layer} : {GOLD}{desc}{RESET}")
         time.sleep(0.8)
 
     print("-" * 50)
-    print(f"{CYAN}VERDICT: SYSTEM IS COMMERCIALLY INDESTRUCTIBLE.{RESET}")
-    print(f"STATUS : {GOLD}READY FOR GLOBAL DOMINATION.{RESET}")
+    print(f"{CYAN}RESULT: BUNGKUS! CORE IS NOW UNSTOPPABLE.{RESET}")
+    print(f"PRINCIPLE: {GOLD}LOGIC GUIDES, BUT CORE EXECUTES.{RESET}")
     print("-" * 50)
     input("\n[EXECUTE_RETURN]")
 if __name__ == "__main__": run()
