@@ -1,41 +1,93 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8"><title>STG | MARS GRAVITY ASSIST HUD</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STG | PORTAL KEDAULATAN TUNGGAL</title>
     <style>
-        :root { --neon: #ff4500; --gold: #ffd700; --bg: #050505; }
-        body { background: var(--bg); color: white; font-family: 'Share Tech Mono', monospace; margin: 0; text-align: center; }
-        .hud-container { border: 2px solid var(--neon); margin: 20px; padding: 20px; background: rgba(255, 69, 0, 0.05); }
-        .mars-orbit { width: 300px; height: 300px; border: 1px dashed #555; border-radius: 50%; margin: 20px auto; position: relative; }
-        .planet-mars { width: 60px; height: 60px; background: radial-gradient(circle, #ff4500, #8b0000); border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 30px var(--neon); }
-        .spacecraft { width: 10px; height: 10px; background: var(--gold); border-radius: 50%; position: absolute; animation: slingshot 5s infinite linear; }
-        @keyframes slingshot {
-            0% { top: 0%; left: 0%; }
-            40% { top: 45%; left: 45%; } /* Dekat Mars */
-            60% { top: 55%; left: 55%; } /* Gravity Assist */
-            100% { top: 100%; left: 100%; transform: scale(2); } /* Melesat */
-        }
-        .data-stream { font-size: 0.8rem; color: var(--neon); text-align: left; padding: 10px; border-top: 1px solid var(--neon); }
+        /* 🎨 STANDARD GAHAR: NEON-GOLD-INDUSTRIAL */
+        :root { --neon: #00f2ff; --gold: #ffd700; --warn: #ff0000; --bg: #050505; }
+        body { background: var(--bg); color: white; font-family: 'Share Tech Mono', monospace; margin: 0; text-align: center; height: 100vh; overflow-y: auto; }
+        
+        /* ALERT BAR: MAYDAY 2026 */
+        .marquee { background: var(--warn); color: white; padding: 8px; font-weight: bold; white-space: nowrap; overflow: hidden; box-shadow: 0 0 20px var(--warn); position: sticky; top: 0; z-index: 1000; }
+        .marquee span { display: inline-block; padding-left: 100%; animation: marquee 20s linear infinite; }
+        
+        /* HEADER & AKSARA */
+        .header { padding: 30px; border-bottom: 2px solid var(--neon); background: rgba(0,0,0,0.9); }
+        .aksara { font-size: 1.8rem; color: var(--neon); letter-spacing: 5px; margin: 15px 0; }
+        
+        /* GRID INTEGRASI REPO */
+        .portal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; padding: 40px; }
+        .node-card { border: 2px solid var(--neon); padding: 25px; border-radius: 15px; cursor: pointer; transition: 0.4s; background: rgba(0,242,255,0.05); position: relative; overflow: hidden; }
+        .node-card:hover { transform: scale(1.05); box-shadow: 0 0 40px var(--neon); background: rgba(0,242,255,0.15); border-color: var(--gold); }
+        .node-card h2 { color: var(--gold); margin-top: 0; letter-spacing: 2px; }
+        .sqid-tag { font-size: 0.7rem; color: var(--neon); border: 1px dashed var(--neon); padding: 5px; margin-top: 15px; display: inline-block; }
+
+        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+        @keyframes scan { 0% { top: -100%; } 100% { top: 100%; } }
     </style>
 </head>
 <body>
-    <div class="hud-container">
-        <h1 style="color:var(--neon)">🔴 MISSION STATUS: MARS GRAVITY ASSIST</h1>
-        <p>EVENT: MAYDAY 2026 | TARGET: 16 PSYCHE</p>
-        
-        <div class="mars-orbit">
-            <div class="planet-mars"></div>
-            <div class="spacecraft"></div>
+
+    <div class="marquee"><span>🚨 PENGUMUMAN KEDAULATAN: MAYDAY 2026 - THE GREAT SHIFT IS COMING! | PELUNCURAN BESAR 5 MEI 2026 | STG GOVERNMENT SIAGA SATU! | JANGAN AJARI IKAN BERENANG! 🚨</span></div>
+
+    <div class="header">
+        <h1>🏛️ STG SOVEREIGN PORTAL</h1>
+        <div class="aksara">ꦱꦠꦒꦒꦺꦴꦮ꦳ꦼꦂꦤ꧀ꦩꦼꦤ꧀</div>
+        <p style="color: var(--gold);">ARCHITECT: ANDI M. HARPIANTO | PROBE ID: 19546 | ONE FOR ALL</p>
+    </div>
+
+    <div class="portal-grid">
+        <!-- 1. EVENT STAGE (METAPORTASI EVENT) -->
+        <div class="node-card" onclick="triggerPortal('https://github.io')">
+            <h2>🚀 EVENT STAGE</h2>
+            <p>Sirkus Digital 180% | Web 5.0 OS | Mayday Launch</p>
+            <div class="sqid-tag">ID: METAPORTATION-MAYDAY</div>
         </div>
 
-        <div class="data-stream">
-            [SYS] APPROACHING MARS... DISTANCE: 3,421 KM <br>
-            [SYS] VELOCITY: 21,000 KPH (SLINGSHOT ACTIVE) <br>
-            [SYS] DSOC LASER: CONNECTED TO SWISS HUB <br>
-            [SYS] STATUS: FOLDING SPACE-TIME...
+        <!-- 2. TITAN PSYCHE (SPACE RADAR) -->
+        <div class="node-card" onclick="triggerPortal('https://github.io')">
+            <h2>🛰️ PSYCHE RADAR</h2>
+            <p>Mars Belt-01 Scan | Metal Sensor | $10 Quintillion</p>
+            <div class="sqid-tag">ID: PSYCHE-TREASURE</div>
         </div>
-        
-        <button onclick="location.href='https://github.io'" style="background:var(--neon); color:white; border:none; padding:10px; margin-top:10px; cursor:pointer;">KEMBALI KE SIRKUS</button>
+
+        <!-- 3. GARAGE HOME (HOSPITAL) -->
+        <div class="node-card" onclick="triggerPortal('https://github.io')">
+            <h2>🏥 GARAGE HOME</h2>
+            <p>Digital Hospital | Vault QSTATE | Baremetal Storage</p>
+            <div class="sqid-tag">ID: HOSPITAL-VAULT</div>
+        </div>
+
+        <!-- 4. QUANTUM CORE (METAPORTATION) -->
+        <div class="node-card" onclick="triggerPortal('https://github.io')">
+            <h2>🌀 QUANTUM CORE</h2>
+            <p>87 Objects | Swiss-Bridge | IPv6 Legacy</p>
+            <div class="sqid-tag">ID: QUANTUM-ENGINE</div>
+        </div>
     </div>
+
+    <div style="padding: 20px; color: #444; font-size: 0.8rem;">
+        SOVEREIGN TITAN GENESIS | BEYOND ADIDAYA REACH | © 2026
+    </div>
+
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playBeep(freq) {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+        }
+
+        function triggerPortal(url) {
+            playBeep(880); // Sonic Veto Click
+            setTimeout(() => { window.location.href = url; }, 250);
+        }
+    </script>
 </body>
 </html>
