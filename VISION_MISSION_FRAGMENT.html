@@ -1,0 +1,24 @@
+<div style="margin:20px auto; max-width:600px;">
+    <button onclick="toggleVision()" style="background:transparent; border:2px solid var(--neon); color:var(--neon); padding:10px 20px; cursor:pointer; font-weight:bold; width:100%; letter-spacing:2px;">🏛️ VIEW VISION & MISSION (LEGAL MANIFESTO)</button>
+    
+    <div id="vision-content" style="display:none; border:1px solid var(--neon); background:rgba(0,242,255,0.05); padding:20px; text-align:left; margin-top:10px; font-size:0.8rem; line-height:1.6;">
+        <h4 style="color:var(--gold); border-bottom:1px solid var(--gold);">🔱 VISI KEDAULATAN:</h4>
+        <p>Membangun peradaban manusia yang bebas-aktif di bawah naungan kedaulatan individu melalui teknologi Web 5.0 dan infrastruktur Baremetal.</p>
+        
+        <h4 style="color:var(--gold); border-bottom:1px solid var(--gold);">🚀 MISI OPERASIONAL:</h4>
+        <p>1. Restorasi Jalur Arpanet Legacy melalui Node RIPE Atlas 19546.<br>
+        2. Penambangan Sumber Daya Luar Angkasa (16 Psyche) berdasarkan Artemis Accords & Space Resource Rights.<br>
+        3. Mewujudkan Ekosistem Finansial $QSTATE yang independen dari monopoli global.</p>
+        
+        <h4 style="color:var(--warn); border-bottom:1px solid var(--warn);">⚖️ LEGAL STANDING:</h4>
+        <p>STG beroperasi sebagai entitas swasta berdaulat yang mematuhi Outer Space Treaty 1967 dan International Telecommunication Law untuk pemanfaatan sumber daya alam semesta demi kemanusiaan.</p>
+    </div>
+</div>
+
+<script>
+    function toggleVision() {
+        const content = document.getElementById('vision-content');
+        content.style.display = content.style.display === 'none' ? 'block' : 'none';
+        playBeep(1200); // Sound of Sovereignty
+    }
+</script>
