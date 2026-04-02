@@ -68,6 +68,7 @@
         </div>
     </div>
 
+<div id="status-bar-stg" style="background:rgba(0,242,255,0.1); border-top:1px solid var(--neon); padding:10px; font-size:0.8rem; display:flex; justify-content:space-around; color:var(--neon); margin-top:30px; letter-spacing:1px;"> <div id="time-jkt">📍 JKT: --:--:--</div> <div id="status-node">📡 NODE 19546: ACTIVE</div> <div id="time-zrh">🇨🇭 ZRH: --:--:--</div> </div>
     <div style="padding: 20px; color: #444; font-size: 0.8rem;">
         SOVEREIGN TITAN GENESIS | BEYOND ADIDAYA REACH | © 2026
     </div>
@@ -88,6 +89,7 @@
             playBeep(880); // Sonic Veto Click
             setTimeout(() => { window.location.href = url; }, 250);
         }
+function updateTime() { const now = new Date(); const jkt = now.toLocaleTimeString("en-GB", {timeZone: "Asia/Jakarta"}); const zrh = now.toLocaleTimeString("en-GB", {timeZone: "Europe/Zurich"}); document.getElementById("time-jkt").innerHTML = "📍 JKT: " + jkt; document.getElementById("time-zrh").innerHTML = "🇨🇭 ZRH: " + zrh; } setInterval(updateTime, 1000); updateTime();
     </script>
 </body>
 </html>
