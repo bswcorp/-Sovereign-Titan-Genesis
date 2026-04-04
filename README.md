@@ -5,6 +5,15 @@
 [![Network: LightLink](https://img.shields.io)](https://lightlink.io/)
 [![Dev: Andi Muhammad Harpianto](https://img.shields.io)](https://github.com/bswcorp)
 
+# 🚫 DOKTRIN ANTI-GIMMICK STG
+**"Code is Law, Physics is Reality."**
+
+1. **Bukan Koin Spekulasi:** STG dibangun di atas infrastruktur Bash/Linux (UserLand) dan Ganache Backend. Kami tidak menjual janji, kami membangun protokol pelipatan jarak (Metaportation).
+2. **Kedaulatan Fisik (H2K):** Akses sistem terikat pada ID perangkat fisik. Tanpa validasi H2K, token $STATE hanyalah angka tak berarti.
+3. **Teknologi Berbasis Sains:** Integrasi data asteroid 16 Psyche dan mitigasi Solar Flare adalah kebutuhan teknis, bukan narasi pemasaran.
+4. **Hutang Dunia:** Solusi finansial global kami berbasis matematika distribusi, bukan skema Ponzi.
+5. 
+
 ## 📋 Overview
 **Sovereign Titan Genesis (STG)** adalah ekosistem teknologi terintegrasi yang dikelola di bawah naungan **Yayasan Sovereign Titan Genesis**. Kami membangun benteng pertahanan digital yang menyatukan pendidikan mandiri, teknologi finansial, dan perangkat keras pertahanan.
 
