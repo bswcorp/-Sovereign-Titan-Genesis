@@ -1,6 +1,6 @@
 # 🏛️ SOVEREIGN TITAN GENESIS (STG)
 > **"Infrastruktur Kedaulatan Digital Melawan Ancaman Kuantum."**
-
+"This repository is part of the Sovereign Titan Genesis (STG) Ecosystem. See STRATEGIC_DEFENSE.md for full national security architecture."
 [![License: MIT](https://img.shields.io)](https://opensource.org)
 [![Network: LightLink](https://img.shields.io)](https://lightlink.io/)
 [![Dev: Andi Muhammad Harpianto](https://img.shields.io)](https://github.com/bswcorp)
