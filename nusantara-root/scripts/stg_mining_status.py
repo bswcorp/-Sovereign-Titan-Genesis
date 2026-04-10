@@ -1,0 +1,1 @@
+/home/userland/METAPORTATION/scripts/stg_mining_status.py

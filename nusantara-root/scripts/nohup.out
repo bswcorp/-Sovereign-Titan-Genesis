@@ -1,0 +1,10 @@
+[92m[!] STATUS: KEMERDEKAAN DIGITAL AKTIF![0m
+[93m[!] MINING: 16 PSYCHE ON BACKGROUND...[0m
+[96m[!] TARGET: AUGUST 13 IBW NUSANTARA[0m
+
+Tekan Enter untuk Kunci Kedaulatan...Traceback (most recent call last):
+  File "/home/userland/Sovereign-Titan-Genesis/nusantara-root/scripts/stg_mining_status.py", line 8, in <module>
+    run_freedom_mining()
+  File "/home/userland/Sovereign-Titan-Genesis/nusantara-root/scripts/stg_mining_status.py", line 6, in run_freedom_mining
+    input("\nTekan Enter untuk Kunci Kedaulatan...")
+OSError: [Errno 9] Bad file descriptor
