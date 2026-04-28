@@ -129,6 +129,18 @@ Kesimpulannya, STG bukan sekadar konsep. Kami adalah entitas kedaulatan digital 
 
 ---
 
+feat(readme): add Proof of Reserve hash and ZKP certificate
+
+- Introduced "Proof of Sovereignty" section in README.md
+- Published verifiable Proof of Reserve (PoR) hash for Unit 008 collateral
+- Added Zero-Knowledge Proof (ZKP) certificate with verification key
+- Included compliance narrative (Selective Disclosure, AML/KYC alignment, Data Sovereignty)
+- Strengthened transparency and antifragile positioning in line with KBLI 2026 recognition
+
+Impact:
+Positions STG-Chain as a credible sovereign fintech infrastructure with verifiable digital reserves, reinforcing investor confidence and regulatory trust.
+
+
 
 
 
