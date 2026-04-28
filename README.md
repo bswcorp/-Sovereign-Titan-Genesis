@@ -116,4 +116,19 @@ Statement: *“STG Vault Unit 008 contains collateral >= 100,000 STG tokens”*
   "valid": true
 }
 
+## reserves section affirms STG-Chain’s reserves are verifiable, compliant, and antifragile — positioning STG as a credible sovereign fintech infrastructure
+---
+
+## 🎤 Elevator Pitch (≤2 menit)
+
+“STG‑Chain adalah institusi kedaulatan digital yang diakui melalui KBLI terbaru Indonesia. Kami membuktikan kapasitas finansial dengan cadangan nyata yang diverifikasi lewat Proof of Reserve hash dan Zero‑Knowledge Proof certificate. Semua pergerakan tercatat dalam audit trail on‑chain yang bisa diakses auditor resmi.  
+
+Kami beroperasi dengan prinsip *Privacy‑Preserving Compliance*: selective disclosure untuk regulator, AML/KYC alignment, dan data sovereignty bagi investor. Stress‑test menunjukkan throughput 1,5 juta TPS dengan stabilitas penuh, siap menyerap arus institusional.  
+
+Kesimpulannya, STG bukan sekadar konsep. Kami adalah entitas kedaulatan digital dengan cadangan terverifikasi, compliance terukur, dan privasi sah. Kami membuka peluang kemitraan strategis dan lisensi infrastruktur bagi pihak yang ingin memasuki era sovereign fintech bersama kami.”  
+
+---
+
+
+
 
