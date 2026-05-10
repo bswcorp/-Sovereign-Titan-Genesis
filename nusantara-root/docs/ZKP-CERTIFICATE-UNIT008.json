@@ -1,0 +1,7 @@
+{
+  "proof_id": "ZKP-UNIT008-2026",
+  "curve": "bn128",
+  "commitment": "0x7a9b3c5d8e2f1a6c9d0b4e7f2a8c5d9e3f1a7c8d9b0e2f3a4c5d6e7f8a9b0c1",
+  "verification_key": "vk-0x9f8a7c6d5e4b3a2f1c0d9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a8",
+  "valid": true
+}
