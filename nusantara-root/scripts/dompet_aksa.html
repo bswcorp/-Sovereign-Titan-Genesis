@@ -4,6 +4,30 @@
     <meta charset="UTF-8">
     <title>QSTATE | Sovereign Audit Dashboard</title>
     <style>
+        .ticker-bar {
+    position: relative;
+    overflow: hidden;
+    background: #111;
+    border-top: 1px solid #444;
+    border-bottom: 1px solid #444;
+    height: 30px;
+    margin-top: 20px;
+}
+
+.ticker-content {
+    display: inline-block;
+    white-space: nowrap;
+    padding-left: 100%;
+    animation: tickerScroll 15s linear infinite;
+    font-size: 1em;
+    color: #00ff00;
+}
+
+@keyframes tickerScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+        
         @keyframes pulseGlow {
     0% {
         text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
@@ -113,7 +137,20 @@
         <div>[SYSTEM] THE GIANT IS BREATHING.</div>
     </div>
 </div>
-
+<div class="ticker-bar">
+    <div class="ticker-content">
+        🔔 AKSA +0.12% vs Rupiah | 📈 Last Update: 10/05/2026 10:25
+    </div>
+</div>
+ <script>
+    // Contoh update dinamis
+    let ticker = document.querySelector('.ticker-content');
+    let percentChange = +0.12; // nilai dummy
+    let color = percentChange >= 0 ? '#00ff00' : '#ff3333';
+    ticker.style.color = color;
+    ticker.textContent = `🔔 AKSA ${percentChange.toFixed(2)}% vs Rupiah | 📈 Last Update: ${new Date().toLocaleString('id-ID')}`;
+ </script>
+    
 <script>
     let targetValue = 1498000000000000; // Rp 1.498 T dalam angka
     let display = document.querySelector('.amount');
