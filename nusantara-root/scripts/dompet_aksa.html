@@ -39,5 +39,23 @@
     </div>
 </div>
 
+<script>
+    let targetValue = 1498000000000000; // Rp 1.498 T dalam angka
+    let display = document.querySelector('.amount');
+    let currentValue = 0;
+    let increment = targetValue / 200; // kecepatan animasi
+
+    function animateCounter() {
+        currentValue += increment;
+        if (currentValue >= targetValue) {
+            currentValue = targetValue;
+            clearInterval(counter);
+        }
+        display.textContent = "Rp " + currentValue.toLocaleString('id-ID');
+    }
+
+    let counter = setInterval(animateCounter, 20);
+</script>
+    
 </body>
 </html>
