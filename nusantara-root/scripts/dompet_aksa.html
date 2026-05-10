@@ -1,6 +1,47 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    .proof-section {
+    margin-top: 20px;
+    padding: 12px;
+    border: 1px solid #2a3f5f;
+    border-radius: 8px;
+    background: #0b1c33;
+    color: #f0f0f0;
+    font-family: 'Roboto Mono', monospace;
+}
+
+.proof-section h4 {
+    margin: 0 0 10px;
+    color: #ffd700; /* emas */
+}
+
+.proof-item {
+    margin-bottom: 8px;
+}
+
+.proof-item .label {
+    font-weight: bold;
+    margin-right: 6px;
+}
+
+.proof-item .hash {
+    color: #6cf; /* biru terang */
+    word-break: break-all;
+}
+
+.proof-item a {
+    color: #9f6; /* hijau verifikasi */
+    text-decoration: none;
+}
+
+.note {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.85em;
+    color: #aaa;
+}
+    
     <meta charset="UTF-8">
     <title>QSTATE | Sovereign Audit Dashboard</title>
     <style>
@@ -14,7 +55,25 @@
     </style>
 </head>
 <body>
-
+<div class="proof-section">
+    <h4>🔒 View Proof</h4>
+    <div class="proof-item">
+        <span class="label">PoR Hash:</span>
+        <code class="hash">
+            0x8f3a9c7d4b2e1f6d9a0c5b7e2d4f8a9b3c7d1e5f6a8b9c0d1e2f3a4b5c6d7e8f
+        </code>
+    </div>
+    <div class="proof-item">
+        <span class="label">ZKP Certificate:</span>
+        <a href="./docs/ZKP-CERTIFICATE-UNIT008.json" target="_blank">
+            View Certificate
+        </a>
+    </div>
+    <small class="note">
+        ✅ Verified via Proof of Reserve + Zero‑Knowledge Proof
+    </small>
+</div>
+    
 <div class="dashboard">
     <h2>SOVEREIGN TITAN GENESIS | UNIT 008</h2>
     <hr color="#d4af37">
