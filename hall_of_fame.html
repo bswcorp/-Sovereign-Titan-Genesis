@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>STG | Hall of Fame - Titan Guardians</title>
+    <style>
+        body { background-color: #050505; color: #d4af37; font-family: 'Courier New', monospace; text-align: center; }
+        .command-center { border: 2px solid #d4af37; padding: 30px; margin: 40px auto; width: 90%; background: rgba(10, 10, 10, 0.95); box-shadow: 0 0 40px #d4af37; }
+        .guardian-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px; }
+        .guardian-card { background: rgba(255, 255, 255, 0.05); border: 1px solid #d4af37; padding: 20px; backdrop-filter: blur(10px); transition: 0.3s; }
+        .guardian-card:hover { transform: translateY(-5px); box-shadow: 0 0 20px #00ff00; border-color: #00ff00; }
+        .rank { font-size: 0.8em; color: #aaa; text-transform: uppercase; letter-spacing: 2px; }
+        .name { font-size: 1.5em; font-weight: bold; color: #00ff00; margin: 10px 0; }
+        .reward { font-size: 0.9em; color: #d4af37; }
+        .status-badge { background: #d4af37; color: #000; font-size: 0.7em; padding: 2px 8px; border-radius: 2px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="command-center">
+    <h1 style="letter-spacing: 10px;">TITAN GUARDIANS</h1>
+    <p style="color: #888;">SOVEREIGN BUG BOUNTY - HALL OF FAME</p>
+    <hr color="#d4af37">
+
+    <div class="guardian-grid">
+        <!-- Placeholder for the first Guardian -->
+        <div class="guardian-card">
+            <div class="rank">RANK: TITAN GUARDIAN</div>
+            <div class="name">Waiting for First Discovery...</div>
+            <div class="reward">Bounty Pool: 500M AKSA</div>
+            <p style="font-size: 0.7em; color: #666;">"The first to breach the H2K defense will be immortalized here."</p>
+            <span class="status-badge">OPEN CHALLENGE</span>
+        </div>
+
+        <!-- Example of how it will look -->
+        <div class="guardian-card" style="opacity: 0.5;">
+            <div class="rank">RANK: SENTINEL</div>
+            <div class="name">ARCHITECT_BOB</div>
+            <div class="reward">10M AKSA REWARDED</div>
+            <p style="font-size: 0.7em; color: #666;">Validated: Documentation Integrity Fix</p>
+            <span class="status-badge">LEGACY</span>
+        </div>
+    </div>
+
+    <div style="margin-top: 40px;">
+        <a href="dompet_aksa.html" style="color: #d4af37; text-decoration: none;">[ BACK TO COMMAND CENTER ]</a>
+    </div>
+</div>
+
+</body>
+</html>
