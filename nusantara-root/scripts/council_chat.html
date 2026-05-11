@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>STG | Council Deliberation Room</title>
+    <style>
+        body { background: #000; color: #d4af37; font-family: 'Courier New', monospace; overflow: hidden; }
+        .terminal { 
+            width: 90%; height: 80vh; margin: 30px auto; 
+            border: 1px solid #d4af37; background: rgba(10, 10, 10, 0.9);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); display: flex; flex-direction: column;
+        }
+        .chat-header { padding: 15px; border-bottom: 1px solid #d4af37; font-size: 0.8em; text-align: left; background: rgba(212, 175, 55, 0.1); }
+        .message-area { flex-grow: 1; padding: 20px; overflow-y: scroll; text-align: left; }
+        .aksara-text { color: #00ff00; font-family: serif; font-size: 1.2em; }
+        .input-area { padding: 20px; border-top: 1px solid #333; display: flex; }
+        input { flex-grow: 1; background: transparent; border: 1px solid #d4af37; color: #fff; padding: 10px; outline: none; }
+        .status-dot { height: 8px; width: 8px; background: #00ff00; border-radius: 50%; display: inline-block; margin-right: 5px; }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="chat-header">
+            <span class="status-dot"></span> [LEVEL 5 CONFIDENTIAL] COUNCIL DELIBERATION CHANNEL | ENCRYPTION: AKSARA-LOGIC v3
+        </div>
+        <div class="message-area" id="chat">
+            <p style="color: #666;">> [SYSTEM] Channel opened. Only Council members verified by H2K can decipher transmissions.</p>
+            <p><strong>Council_1:</strong> <span class="aksara-text">ꦄ ꦧ ꦼ ꦢ ꦌ ...</span> (Translate: I support the IBM M5 upgrade.)</p>
+        </div>
+        <div class="input-area">
+            <input type="text" id="msgInput" placeholder="Enter message to encrypt and transmit...">
+            <button onclick="transmit()" style="background:#d4af37; color:#000; border:none; padding:10px 20px; cursor:pointer; margin-left:10px;">TRANSMIT</button>
+        </div>
+    </div>
+
+    <script>
+        const cipher = {'A': 'ꦄ', 'B': 'ꦧ', 'C': 'ꦼ', 'D': 'ꦢ', 'E': 'ꦌ', ' ': '•'};
+        function transmit() {
+            let val = document.getElementById('msgInput').value.toUpperCase();
+            let encrypted = val.split('').map(c => cipher[c] || c).join('');
+            let p = document.createElement('p');
+            p.innerHTML = `<strong>YOU:</strong> <span class="aksara-text">${encrypted}</span>`;
+            document.getElementById('chat').appendChild(p);
+            document.getElementById('msgInput').value = '';
+        }
+    </script>
+</body>
+</html>
