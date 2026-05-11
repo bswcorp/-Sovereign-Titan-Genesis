@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>STG | EMERGENCY OVERRIDE TERMINAL</title>
+    <style>
+        body { background: #000; color: #ff0000; font-family: 'Courier New', monospace; text-align: center; }
+        .emergency-box { 
+            border: 2px solid #ff0000; padding: 40px; width: 70%; margin: 50px auto; 
+            background: rgba(255, 0, 0, 0.05); box-shadow: 0 0 50px #ff0000;
+            animation: pulse-red 2s infinite;
+        }
+        @keyframes pulse-red { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+        .kill-switch { 
+            background: #ff0000; color: #000; font-weight: bold; border: none; 
+            padding: 20px 40px; cursor: pointer; letter-spacing: 5px; margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="emergency-box">
+        <h1>🚨 COUNCIL EMERGENCY OVERRIDE 🚨</h1>
+        <p>[ WARNING ] GLOBAL FINANCIAL MELTDOWN DETECTED</p>
+        <hr color="#ff0000">
+        <div style="font-size: 0.8em; text-align: left; padding: 10px; background: #111;">
+            > SENTINEL AI: VOLATILITY EXCEEDS THRESHOLD (900%)<br>
+            > STATUS: DEX LIQUIDITY AT RISK<br>
+            > REQUIRED: 3/5 COUNCIL PULSE TO FREEZE ECOSYSTEM
+        </div>
+        
+        <div style="margin-top: 20px;">VOTES CAST: <span id="voteCount">0</span> / 5</div>
+        <button class="kill-switch" onclick="triggerOverride()">INITIATE KILL-SWITCH</button>
+    </div>
+
+    <script>
+        function triggerOverride() {
+            alert("TRANSMITTING EMERGENCY OVERRIDE VIA AKSARA-LOGIC... PLEASE SYNC H2K.");
+        }
+    </script>
+</body>
+</html>
