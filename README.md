@@ -24,3 +24,6 @@ Untuk mensinkronkan seluruh ekosistem di mesin lokal Anda:
 
 ## 🛡️ [SOVEREIGN BUG BOUNTY ACTIVE](SOVEREIGN_BUG_BOUNTY.md)
 Join the elite 1,000 reviewers and earn your first AKSA tokens.
+
+## 🏛️ [THE GUARDIAN MANIFESTO](stg-web3/contracts/GuardianManifesto.sol)
+All Guardians must sign the On-Chain Oath to unlock Unit 008 access.
