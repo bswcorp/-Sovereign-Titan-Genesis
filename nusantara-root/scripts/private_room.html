@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>STG | The Guardian Sanctum</title>
+    <style>
+        body { background: radial-gradient(circle, #0a0a0a, #000); color: #00ff00; font-family: 'Courier New', monospace; text-align: center; }
+        .hidden-room { display: none; padding: 50px; border: 1px solid #d4af37; background: rgba(212, 175, 55, 0.05); backdrop-filter: blur(20px); box-shadow: 0 0 50px rgba(0, 255, 0, 0.2); width: 80%; margin: auto; margin-top: 50px; }
+        .access-denied { color: #ff0000; font-size: 2em; margin-top: 100px; text-shadow: 0 0 10px #ff0000; }
+        .data-feed { text-align: left; background: #000; padding: 20px; border-left: 5px solid #00ff00; height: 300px; overflow-y: scroll; font-size: 0.9em; }
+        .key-badge { border: 1px solid #d4af37; padding: 5px; font-size: 0.7em; color: #d4af37; }
+    </style>
+</head>
+<body>
+
+    <div id="loading">📡 SCANNING KINETIC SIGNATURE & ON-CHAIN OATH...</div>
+
+    <!-- THE SECRET ROOM -->
+    <div id="sanctum" class="hidden-room">
+        <h1 style="color: #d4af37; letter-spacing: 15px;">THE GUARDIAN SANCTUM</h1>
+        <p>LEVEL 4 ACCESS GRANTED - WELCOME TO THE INNER CIRCLE</p>
+        <hr border="1" color="#d4af37">
+        
+        <div style="margin: 20px;">
+            <span class="key-badge">SOVEREIGN_ID: AUTHENTICATED</span>
+            <span class="key-badge">SOULBOUND_BADGE: DETECTED</span>
+            <span class="key-badge">MANIFESTO: SIGNED</span>
+        </div>
+
+        <div class="data-feed">
+            <p>> [INTERNAL] IBM M5 CORE TEMPERATURE: 32°C</p>
+            <p>> [VAULT] UNIT 008 COLD STORAGE BALANCE: Rp 1.498 T (SEALED)</p>
+            <p>> [SENTINEL] ANOMALY DETECTION: 0.00%</p>
+            <p>> [AKSARA] MASTER KEY: ꦄ ꦧ ꦼ ꦢ ꦌ ... [ENCRYPTED]</p>
+            <p>> [SYSTEM] THE GIANT IS BREATHING DEEPLY.</p>
+        </div>
+        
+        <button onclick="window.location.href='dompet_aksa.html'" style="margin-top:20px; background:none; border:1px solid #d4af37; color:#d4af37; cursor:pointer;">[ EXIT SANCTUM ]</button>
+    </div>
+
+    <div id="denied" class="access-denied" style="display:none;">
+        🚨 ACCESS DENIED 🚨<br>
+        <span style="font-size: 0.5em;">REASON: SOULBOUND BADGE NOT FOUND OR MANIFESTO UNSIGNED</span>
+    </div>
+
+    <script src="https://ethers.io" type="application/javascript"></script>
+    <script>
+        async function verifyAccess() {
+            const badgeContract = "ADDRESS_OF_SOULBOUND_BADGE";
+            const manifestoContract = "ADDRESS_OF_MANIFESTO";
+            
+            // Logic to check if user has token and has signed
+            // If true:
+            // document.getElementById('loading').style.display = 'none';
+            // document.getElementById('sanctum').style.display = 'block';
+            
+            // Simulation for now:
+            setTimeout(() => {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('sanctum').style.display = 'block'; 
+            }, 3000);
+        }
+        verifyAccess();
+    </script>
+</body>
+</html>
