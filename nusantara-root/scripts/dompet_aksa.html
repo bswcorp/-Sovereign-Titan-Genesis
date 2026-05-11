@@ -1,140 +1,829 @@
+# dompet_aksa.html
+
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <title>QSTATE | Sovereign Audit Dashboard</title>
-    <style>
-        body { background-color: #0a0a0a; color: #d4af37; font-family: 'Courier New', monospace; text-align: center; }
-        .dashboard { border: 2px solid #d4af37; padding: 20px; margin: 50px auto; width: 80%; background: #111; box-shadow: 0 0 20px #d4af37; }
-        .stat-box { display: inline-block; width: 45%; margin: 10px; padding: 20px; border: 1px solid #444; vertical-align: top; }
-        .amount { font-size: 2.5em; font-weight: bold; animation: pulseGlow 2s infinite; }
-        .label { font-size: 1.1em; color: #aaa; text-transform: uppercase; margin-bottom: 10px; }
-        .status-led { height: 10px; width: 10px; background-color: #00ff00; border-radius: 50%; display: inline-block; margin-right: 5px; }
-        .log-box { text-align: left; font-size: 0.8em; color: #666; margin-top: 20px; padding: 10px; background: #000; border: 1px solid #222; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QSTATE | Sovereign Titan Genesis</title>
 
-        /* Proof Section Styling */
-        .proof-section {
-            margin-top: 20px;
-            padding: 12px;
-            border: 1px solid #2a3f5f;
-            border-radius: 8px;
-            background: #0b1c33;
-            color: #f0f0f0;
-            font-family: 'Roboto Mono', monospace;
-        }
-        .proof-section h4 { margin: 0 0 10px; color: #ffd700; }
-        .proof-item { margin-bottom: 8px; }
-        .proof-item .label { font-weight: bold; margin-right: 6px; }
-        .proof-item .hash { color: #6cf; word-break: break-all; }
-        .proof-item a { color: #9f6; text-decoration: none; }
-        .note { display: block; margin-top: 10px; font-size: 0.85em; color: #aaa; }
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet">
 
-        /* Glow Animation */
-        @keyframes pulseGlow {
-            0% { text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00; color: #00ff00; }
-            50% { text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00; color: #66ff66; }
-            100% { text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00; color: #00ff00; }
-        }
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
 
-        /* Multi-Ticker Styling */
-        .ticker-bar {
-            position: relative;
-            overflow: hidden;
-            background: #111;
-            border-top: 1px solid #444;
-            border-bottom: 1px solid #444;
-            height: 30px;
-            margin-top: 20px;
-        }
-        .ticker-content {
-            display: inline-block;
-            white-space: nowrap;
-            padding-left: 100%;
-            animation: tickerScroll 20s linear infinite;
-            font-size: 1em;
-        }
-        @keyframes tickerScroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
-        }
-    </style>
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#02040a;
+    color:#fff;
+    font-family:'Orbitron',sans-serif;
+    overflow-x:hidden;
+    min-height:100vh;
+}
+
+/* ========================= */
+/* BACKGROUND */
+/* ========================= */
+
+body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    background:
+    radial-gradient(circle at top,#0f1b33 0%,#02040a 60%);
+    z-index:-3;
+}
+
+.stars{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:-2;
+}
+
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:white;
+    border-radius:50%;
+    opacity:.7;
+    animation:twinkle 4s infinite alternate;
+}
+
+@keyframes twinkle{
+    from{opacity:.2;}
+    to{opacity:1;}
+}
+
+/* ========================= */
+/* HEADER */
+/* ========================= */
+
+.hero{
+    text-align:center;
+    padding:60px 20px 30px;
+}
+
+.hero h1{
+    font-size:3rem;
+    letter-spacing:8px;
+    color:#00f0ff;
+    text-shadow:0 0 20px rgba(0,240,255,.6);
+}
+
+.hero p{
+    margin-top:15px;
+    color:#9aa4b2;
+    letter-spacing:2px;
+}
+
+/* ========================= */
+/* GLASS PANEL */
+/* ========================= */
+
+.dashboard{
+    width:92%;
+    margin:30px auto;
+    padding:35px;
+    border-radius:28px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+    backdrop-filter:blur(18px);
+    box-shadow:
+    0 0 35px rgba(0,240,255,.08);
+    position:relative;
+    overflow:hidden;
+}
+
+.dashboard::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:28px;
+    padding:1px;
+    background:linear-gradient(135deg,
+    rgba(0,240,255,.3),
+    rgba(140,82,255,.2));
+    -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;
+    mask-composite:exclude;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+    margin-top:30px;
+}
+
+.stat-box{
+    background:rgba(0,0,0,.45);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:20px;
+    padding:30px;
+    backdrop-filter:blur(10px);
+    transition:.3s;
+}
+
+.stat-box:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 20px rgba(0,240,255,.15);
+}
+
+.label{
+    color:#9aa4b2;
+    font-size:.95rem;
+    margin-bottom:15px;
+    letter-spacing:2px;
+}
+
+.amount{
+    font-size:2rem;
+    color:#00ff88;
+    text-shadow:0 0 12px rgba(0,255,136,.5);
+    word-break:break-word;
+}
+
+.status-online{
+    color:#ffd700;
+    font-size:1.8rem;
+}
+
+/* ========================= */
+/* BUTTON */
+/* ========================= */
+
+.action-bar{
+    margin-top:35px;
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+button{
+    padding:14px 24px;
+    border:none;
+    border-radius:14px;
+    background:rgba(0,0,0,.5);
+    color:#00f0ff;
+    border:1px solid rgba(0,240,255,.2);
+    cursor:pointer;
+    font-family:'Orbitron',sans-serif;
+    transition:.3s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 0 20px rgba(0,240,255,.2);
+}
+
+.connected{
+    background:#00f0ff;
+    color:#000;
+    box-shadow:0 0 20px rgba(0,240,255,.5);
+}
+
+/* ========================= */
+/* GLOBE */
+/* ========================= */
+
+#globe-container{
+    margin-top:45px;
+    width:100%;
+    height:450px;
+    border-radius:24px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.08);
+    background:#000;
+    box-shadow:0 0 25px rgba(0,240,255,.12);
+}
+
+#globeCanvas{
+    width:100%;
+    height:100%;
+}
+
+/* ========================= */
+/* TRANSACTION PANEL */
+/* ========================= */
+
+.tx-panel{
+    margin-top:40px;
+    padding:30px;
+    border-radius:24px;
+    background:rgba(0,0,0,.5);
+    border:1px solid rgba(255,255,255,.08);
+    backdrop-filter:blur(18px);
+}
+
+.tx-title{
+    color:#00f0ff;
+    margin-bottom:25px;
+    letter-spacing:3px;
+}
+
+.tx-item{
+    padding:16px;
+    margin-bottom:14px;
+    border-bottom:1px solid rgba(255,255,255,.06);
+    color:#c9d1d9;
+}
+
+.tx-amount{
+    color:#00ff88;
+    margin-top:8px;
+}
+
+/* ========================= */
+/* TERMINAL */
+/* ========================= */
+
+.terminal{
+    margin-top:40px;
+    padding:30px;
+    border-radius:24px;
+    background:#000;
+    border:1px solid rgba(0,255,255,.1);
+    color:#00ff88;
+    font-family:monospace;
+    line-height:2;
+    min-height:220px;
+    overflow:auto;
+}
+
+/* ========================= */
+/* TICKER */
+/* ========================= */
+
+.ticker-container{
+    margin-top:35px;
+    overflow:hidden;
+    white-space:nowrap;
+    border-top:1px solid rgba(255,255,255,.08);
+    border-bottom:1px solid rgba(255,255,255,.08);
+    padding:14px 0;
+}
+
+.ticker-text{
+    display:inline-block;
+    animation:scrollTicker 18s linear infinite;
+    color:#ffd700;
+}
+
+@keyframes scrollTicker{
+    from{transform:translateX(100%);}
+    to{transform:translateX(-100%);}
+}
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
+@media(max-width:768px){
+
+.hero h1{
+    font-size:2rem;
+    letter-spacing:4px;
+}
+
+.dashboard{
+    padding:20px;
+}
+
+.amount{
+    font-size:1.5rem;
+}
+
+#globe-container{
+    height:320px;
+}
+
+}
+
+</style>
 </head>
 <body>
-<div class="proof-section">
-    <h4>🔒 View Proof</h4>
-    <div class="proof-item">
-        <span class="label">PoR Hash:</span>
-        <code class="hash">0x8f3a9c7d4b2e1f6d9a0c5b7e2d4f8a9b3c7d1e5f6a8b9c0d1e2f3a4b5c6d7e8f</code>
-    </div>
-    <div class="proof-item">
-        <span class="label">ZKP Certificate:</span>
-        <a href="./docs/ZKP-CERTIFICATE-UNIT008.json" target="_blank">View Certificate</a>
-    </div>
-    <small class="note">✅ Verified via Proof of Reserve + Zero‑Knowledge Proof</small>
-</div>
-    
+
+<div class="stars" id="stars"></div>
+
+<section class="hero">
+    <h1>SOVEREIGN TITAN GENESIS</h1>
+    <p>GLOBAL SOVEREIGN DIGITAL OPERATING INTERFACE</p>
+</section>
+
 <div class="dashboard">
-    <h2>SOVEREIGN TITAN GENESIS | UNIT 008</h2>
-    <hr color="#d4af37">
-    
-    <div class="stat-box">
-        <div class="label">Total Collateral Value</div>
-        <div class="amount">Rp 1.498 T</div>
-        <div style="font-size: 0.7em; color: #888;">Backed by Physical & Digital Assets</div>
+
+    <div class="stats">
+
+        <div class="stat-box">
+            <div class="label">QUANTUM VALUATION</div>
+            <div class="amount" id="valuation">
+                Rp 1.498.000.000.000.000
+            </div>
+        </div>
+
+        <div class="stat-box">
+            <div class="label">NETWORK STATUS</div>
+            <div class="status-online">ACTIVE</div>
+            <div style="margin-top:10px;color:#00ff88;">
+                SENTINEL AI VERIFIED
+            </div>
+        </div>
+
+        <div class="stat-box">
+            <div class="label">CONNECTED BALANCE</div>
+            <div class="amount" id="walletBalance">
+                0 QSTATE
+            </div>
+        </div>
+
     </div>
 
-    <div class="stat-box">
-        <div class="label">Audit Status</div>
-        <div class="amount" style="color: #d4af37;">VERIFIED</div>
-        <div style="font-size: 0.9em;"><span class="status-led"></span>Sentinel AI Active</div>
+    <div class="action-bar">
+        <button id="connectWalletBtn">
+            CONNECT WALLET
+        </button>
+
+        <button>
+            GLOBAL NODE ONLINE
+        </button>
     </div>
 
-    <div class="log-box">
-        <div>[LOG] 10/05/2026 09:20:00 - Syncing Dual-Node Singapore-Swiss... OK</div>
-        <div>[LOG] 10/05/2026 09:20:05 - Verifying Batch 02 (Financial Vesting)... OK</div>
-        <div>[LOG] 10/05/2026 09:20:10 - Tax Gateway (NPWP: 73.093.085.6) Active... OK</div>
-        <div>[SYSTEM] THE GIANT IS BREATHING.</div>
+    <div id="globe-container">
+        <canvas id="globeCanvas"></canvas>
     </div>
-</div>
 
-<div class="ticker-bar">
-    <div class="ticker-content" id="ticker">
-        🔔 AKSA +0.12% vs Rupiah | 💵 AKSA +0.08% vs USD | ₿ AKSA -0.05% vs BTC | 📈 Last Update: 10/05/2026 10:34
+    <div class="tx-panel">
+
+        <div class="tx-title">
+            LATEST TRANSACTIONS
+        </div>
+
+        <div id="txFeed"></div>
+
     </div>
+
+    <div class="terminal" id="terminal">
+        <div>> INITIALIZING SOVEREIGN CORE...</div>
+        <div>> CONNECTING SINGAPORE NODE...</div>
+        <div>> CONNECTING SWISS NODE...</div>
+        <div>> SENTINEL AI ACTIVE...</div>
+    </div>
+
+    <div class="ticker-container">
+        <div class="ticker-text">
+            [MARKET] QSTATE/SAR ▲ | QSTATE/USD ▲ | QSTATE/BTC ▼ |
+            [SENTINEL] GLOBAL NODE STABLE |
+            [AI] QUANTUM SHIELD ACTIVE |
+            [SYSTEM] THE GIANT IS BREATHING
+        </div>
+    </div>
+
 </div>
 
 <script>
-    // Counter animasi Rp 1.498 T
-    let targetValue = 1498000000000000;
-    let display = document.querySelector('.amount');
-    let currentValue = 0;
-    let increment = targetValue / 200;
-    function animateCounter() {
-        currentValue += increment;
-        if (currentValue >= targetValue) {
-            currentValue = targetValue;
-            clearInterval(counter);
-        }
-        display.textContent = "Rp " + currentValue.toLocaleString('id-ID');
-    }
-    let counter = setInterval(animateCounter, 20);
 
-    // Update ticker dinamis (dummy data)
-    let ticker = document.getElementById('ticker');
-    let metrics = [
-        { pair: "AKSA vs Rupiah", change: +0.12 },
-        { pair: "AKSA vs USD", change: +0.08 },
-        { pair: "AKSA vs BTC", change: -0.05 }
-    ];
-    function updateTicker() {
-        let now = new Date().toLocaleString('id-ID');
-        let text = metrics.map(m => {
-            let color = m.change >= 0 ? "🟢" : "🔴";
-            return `${color} ${m.pair} ${m.change.toFixed(2)}%`;
-        }).join(" | ");
-        ticker.textContent = `${text} | 📈 Last Update: ${now}`;
+/* ========================= */
+/* STARFIELD */
+/* ========================= */
+
+const starsContainer =
+document.getElementById('stars');
+
+for(let i=0;i<180;i++){
+
+    const star = document.createElement('div');
+
+    star.className = 'star';
+
+    star.style.left = Math.random()*100+'%';
+    star.style.top = Math.random()*100+'%';
+
+    star.style.animationDuration =
+    (2+Math.random()*5)+'s';
+
+    starsContainer.appendChild(star);
+}
+
+/* ========================= */
+/* LIVE VALUATION */
+/* ========================= */
+
+let baseValuation =
+1498000000000000;
+
+function updateValuation(){
+
+    let change =
+    Math.floor(Math.random()*200000000)
+    -50000000;
+
+    baseValuation += change;
+
+    document.getElementById('valuation')
+    .innerText =
+    'Rp ' +
+    baseValuation.toLocaleString('id-ID');
+
+}
+
+setInterval(updateValuation,3000);
+
+/* ========================= */
+/* TERMINAL */
+/* ========================= */
+
+const terminal =
+document.getElementById('terminal');
+
+const logs = [
+'> VALIDATING PROOF-OF-TITAN...',
+'> SYNCHRONIZING GLOBAL NODES...',
+'> H2K ENCRYPTION ACTIVE...',
+'> SENTINEL FIREWALL ENABLED...',
+'> AIR-GAP TUNNEL STABLE...',
+'> SOVEREIGN NETWORK VERIFIED...'
+];
+
+let logIndex = 0;
+
+setInterval(()=>{
+
+    if(logIndex < logs.length){
+
+        const line =
+        document.createElement('div');
+
+        line.textContent = logs[logIndex];
+
+        terminal.appendChild(line);
+
+        terminal.scrollTop = terminal.scrollHeight;
+
+        logIndex++;
+
     }
-    updateTicker();
+
+},2000);
+
+/* ========================= */
+/* WALLET */
+/* ========================= */
+
+const contractAddress =
+'0xcD6a42782d230D7c13A74ddec5dD140e55499Df9';
+
+const abi = [
+{
+"inputs":[{"internalType":"address","name":"account","type":"address"}],
+"name":"balanceOf",
+"outputs":[{"internalType":"uint256","name":"","type":"uint256"}],
+"stateMutability":"view",
+"type":"function"
+},
+{
+"inputs":[],
+"name":"decimals",
+"outputs":[{"internalType":"uint8","name":"","type":"uint8"}],
+"stateMutability":"view",
+"type":"function"
+},
+{
+"anonymous":false,
+"inputs":[
+{"indexed":true,"internalType":"address","name":"from","type":"address"},
+{"indexed":true,"internalType":"address","name":"to","type":"address"},
+{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}
+],
+"name":"Transfer",
+"type":"event"
+}
+];
+
+async function connectWallet(){
+
+    if(!window.ethereum){
+
+        alert('MetaMask not detected');
+        return;
+
+    }
+
+    try{
+
+        const provider =
+        new ethers.providers.Web3Provider(window.ethereum);
+
+        await provider.send(
+            'eth_requestAccounts',
+            []
+        );
+
+        const signer = provider.getSigner();
+
+        const walletAddress =
+        await signer.getAddress();
+
+        const shortAddress =
+        walletAddress.slice(0,6)
+        +
+        '...'
+        +
+        walletAddress.slice(-4);
+
+        const btn =
+        document.getElementById('connectWalletBtn');
+
+        btn.innerText = shortAddress;
+        btn.classList.add('connected');
+
+        const contract =
+        new ethers.Contract(
+            contractAddress,
+            abi,
+            provider
+        );
+
+        const balance =
+        await contract.balanceOf(walletAddress);
+
+        const decimals =
+        await contract.decimals();
+
+        const formatted =
+        ethers.utils.formatUnits(
+            balance,
+            decimals
+        );
+
+        document.getElementById('walletBalance')
+        .innerText =
+        formatted + ' QSTATE';
+
+        loadTransactions(contract);
+
+        contract.on(
+            'Transfer',
+            ()=>{
+                pulseGlobe();
+            }
+        );
+
+    }catch(err){
+
+        console.error(err);
+
+    }
+
+}
+
+/* ========================= */
+/* TRANSACTIONS */
+/* ========================= */
+
+async function loadTransactions(contract){
+
+    const filter =
+    contract.filters.Transfer();
+
+    const events =
+    await contract.queryFilter(filter,-10);
+
+    const txFeed =
+    document.getElementById('txFeed');
+
+    txFeed.innerHTML = '';
+
+    events.reverse().forEach(event=>{
+
+        const from = event.args.from;
+        const to = event.args.to;
+
+        const value =
+        ethers.utils.formatUnits(
+            event.args.value,
+            18
+        );
+
+        const tx =
+        document.createElement('div');
+
+        tx.className = 'tx-item';
+
+        tx.innerHTML = `
+
+        <div>
+        ${from.slice(0,6)}
+        ...
+        ${from.slice(-4)}
+
+        →
+
+        ${to.slice(0,6)}
+        ...
+        ${to.slice(-4)}
+        </div>
+
+        <div class="tx-amount">
+        ${parseFloat(value).toFixed(2)} QSTATE
+        </div>
+
+        `;
+
+        txFeed.appendChild(tx);
+
+    });
+
+}
+
+/* ========================= */
+/* GLOBE */
+/* ========================= */
+
+let pulseIntensity = 0;
+let line;
+
+function initGlobe(){
+
+    const canvas =
+    document.getElementById('globeCanvas');
+
+    const scene =
+    new THREE.Scene();
+
+    const camera =
+    new THREE.PerspectiveCamera(
+        45,
+        canvas.clientWidth/canvas.clientHeight,
+        0.1,
+        1000
+    );
+
+    const renderer =
+    new THREE.WebGLRenderer({
+        canvas,
+        antialias:true
+    });
+
+    renderer.setSize(
+        canvas.clientWidth,
+        canvas.clientHeight
+    );
+
+    const geometry =
+    new THREE.SphereGeometry(2,64,64);
+
+    const material =
+    new THREE.MeshBasicMaterial({
+        color:0x003366,
+        wireframe:true
+    });
+
+    const globe =
+    new THREE.Mesh(
+        geometry,
+        material
+    );
+
+    scene.add(globe);
+
+    const nodeMaterial =
+    new THREE.MeshBasicMaterial({
+        color:0x00ffcc
+    });
+
+    const nodeGeometry =
+    new THREE.SphereGeometry(0.06,16,16);
+
+    const singaporeNode =
+    new THREE.Mesh(
+        nodeGeometry,
+        nodeMaterial
+    );
+
+    singaporeNode.position.set(1.2,0.5,1.5);
+
+    scene.add(singaporeNode);
+
+    const swissNode =
+    new THREE.Mesh(
+        nodeGeometry,
+        nodeMaterial
+    );
+
+    swissNode.position.set(-1,0.8,-1.5);
+
+    scene.add(swissNode);
+
+    const lineMaterial =
+    new THREE.LineBasicMaterial({
+        color:0x00ffff,
+        transparent:true,
+        opacity:.35
+    });
+
+    const points = [];
+
+    points.push(singaporeNode.position);
+    points.push(swissNode.position);
+
+    const lineGeometry =
+    new THREE.BufferGeometry()
+    .setFromPoints(points);
+
+    line =
+    new THREE.Line(
+        lineGeometry,
+        lineMaterial
+    );
+
+    scene.add(line);
+
+    camera.position.z = 5;
+
+    function animate(){
+
+        requestAnimationFrame(animate);
+
+        globe.rotation.y += 0.002;
+
+        if(pulseIntensity > 0){
+
+            line.material.color.setHSL(
+                0.15,
+                1,
+                0.6
+            );
+
+            line.material.opacity =
+            0.3 + pulseIntensity;
+
+            pulseIntensity -= 0.02;
+
+        }else{
+
+            line.material.color.setHex(0x00ffff);
+            line.material.opacity = 0.35;
+
+        }
+
+        renderer.render(scene,camera);
+
+    }
+
+    animate();
+
+}
+
+function pulseGlobe(){
+
+    pulseIntensity = 1;
+
+}
+
+initGlobe();
+
+/* ========================= */
+/* BUTTON */
+/* ========================= */
+
+document
+.getElementById('connectWalletBtn')
+.addEventListener('click',connectWallet);
+
 </script>
+
 </body>
 </html>
+```
+
+## Deploy ke Repository
+
+Path target:
+
+```bash
+nusantara-root/scripts/dompet_aksa.html
+```
+
+Lalu push ke repository:
+
+```bash
+cd ~/Sovereign-Titan-Genesis/
+
+git add .
+
+git commit -m "UPGRADE: Galactic Sovereign Command Center UI"
+
+git push origin main
+```
