@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>STG | Council Voting Portal</title>
+    <style>
+        body { background: #050505; color: #d4af37; font-family: 'Courier New', monospace; }
+        .glass-panel { 
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(15px); 
+            border: 1px solid rgba(212, 175, 55, 0.3); 
+            padding: 40px; margin: 50px auto; width: 85%;
+            box-shadow: 0 0 40px rgba(0, 255, 0, 0.1);
+        }
+        .proposal-card { 
+            background: rgba(0, 0, 0, 0.6); 
+            border-left: 4px solid #00ff00; 
+            padding: 20px; margin-bottom: 20px; text-align: left;
+        }
+        .vote-btn { 
+            background: transparent; border: 1px solid #00ff00; color: #00ff00;
+            padding: 10px 20px; cursor: pointer; transition: 0.3s;
+        }
+        .vote-btn:hover { background: #00ff00; color: #000; box-shadow: 0 0 15px #00ff00; }
+        .fund-display { font-size: 2em; color: #00ff00; text-shadow: 0 0 10px #00ff00; }
+    </style>
+</head>
+<body>
+    <div class="glass-panel">
+        <h1 style="letter-spacing: 8px;">NASA MISSION CONTROL: VOTING PORTAL</h1>
+        <p style="color: #888;">COUNCIL OF FIVE - UNIT 012 FUND ALLOCATION</p>
+        <hr border="1" color="#d4af37" style="opacity:0.2;">
+
+        <div style="margin: 30px 0;">
+            <div style="font-size: 0.8em; color: #aaa;">AVAILABLE COMMUNITY FUND (UNIT 012)</div>
+            <div class="fund-display">50,000,000 AKSA</div>
+        </div>
+
+        <!-- ACTIVE PROPOSAL -->
+        <div class="proposal-card">
+            <div style="font-size: 0.7em; color: #00ff00;">[ ACTIVE PROPOSAL: #STG-001 ]</div>
+            <h3>Allocation for Unit 012 Infrastructure Upgrade (IBM M5 Nodes)</h3>
+            <p style="font-size: 0.9em; color: #ccc;">Proposed allocation of 10M AKSA to subsidize hardware for regional guardians.</p>
+            <div style="margin-top: 15px;">
+                <button class="vote-btn" onclick="castVote(true)">APPROVE (YES)</button>
+                <button class="vote-btn" style="border-color:#ff0000; color:#ff0000;" onclick="castVote(false)">REJECT (NO)</button>
+            </div>
+        </div>
+
+        <div style="font-size: 0.7em; color: #555;">[ SYSTEM ] ONLY VERIFIED COUNCIL MEMBERS CAN TRANSMIT DATA.</div>
+    </div>
+
+    <script>
+        async function castVote(support) {
+            // Web3 logic to interact with CouncilVesting.sol or a Governance Contract
+            alert("VOTE TRANSMITTED. VERIFYING H2K SIGNATURE...");
+        }
+    </script>
+</body>
+</html>
