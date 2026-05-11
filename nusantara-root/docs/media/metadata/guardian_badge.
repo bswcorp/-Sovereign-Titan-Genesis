@@ -1,0 +1,12 @@
+{
+  "name": "Titan Guardian Genesis Badge",
+  "description": "Lencana Kehormatan bagi 1.000 Reviewer Pertama Sovereign Titan Genesis. Tersegel abadi di Blok Nomor 1 STG-Chain.",
+  "image": "https://quorumstate.international",
+  "attributes": [
+    { "trait_type": "Rank", "value": "Founder Guardian" },
+    { "trait_type": "Pillar", "value": "Nusantara-Root" },
+    { "trait_type": "Authenticity", "value": "Soulbound (Non-Transferable)" },
+    { "trait_type": "Era", "value": "2026 - The New Wave" }
+  ],
+  "compiler": "Sovereign-Titan-AI"
+}
