@@ -1,1 +1,1 @@
-[Paste the Python code above]
+[PASTE SCRIPT PYTHON]
