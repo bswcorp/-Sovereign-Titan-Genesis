@@ -75,3 +75,5 @@ cython_debug/
 # Database (Khusus buat brankas SQLite kita di Lenovo)
 *.db
 *.sqlite3
+stg-chain/explorer/node_modules/
+node_modules/
