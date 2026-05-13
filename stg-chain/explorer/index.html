@@ -25,14 +25,45 @@
         <pre id="outputDisplay" style="color: #aaa; text-align: left; background: #000; padding: 15px; border-left: 3px solid #d4af37;">[System Status]: Awaiting user trace command...</pre>
     </div>
 
-    <script>
-        function queryChain() {
-            const input = document.getElementById('queryInput').value;
-            const output = document.getElementById('outputDisplay');
-            output.innerText = `[LOG]: Tracing target ${input} across node RPC records...`;
-            // Real integration will map directly to /api endpoints above
-        }
-    </script>
+        <script>
+async function queryChain() {
+
+    const output = document.getElementById("outputDisplay");
+
+    output.innerText = "[RPC] Connecting to STG Sovereign Node...";
+
+    try {
+
+        // Query latest block
+        const response = await fetch("http://localhost:8545", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                jsonrpc: "2.0",
+                method: "eth_blockNumber",
+                params: [],
+                id: 1
+            })
+        });
+
+        const data = await response.json();
+
+        output.innerText =
+            "🛰️ STG CHAIN LIVE\n\n" +
+            "Latest Block: " + data.result + "\n" +
+            "RPC Status: ONLINE\n" +
+            "Chain ID: 777";
+
+    } catch (err) {
+
+        output.innerText =
+            "[ERROR] Failed connecting to STG RPC\n\n" +
+            err;
+    }
+}
+</script>
 </body>
 </html>
 
