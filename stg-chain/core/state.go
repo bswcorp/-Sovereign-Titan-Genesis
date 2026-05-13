@@ -2,14 +2,16 @@ package core
 
 import (
 	"crypto/sha256"
+	"encoding/binary"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"os"
+	"log"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com"
 )
 
 type Transaction struct {
@@ -20,21 +22,20 @@ type Transaction struct {
 }
 
 type StateDB struct {
-	mu           sync.RWMutex
-	CurrentBlock uint64                 `json:"current_block"`
-	Balances     map[string]uint64      `json:"balances"`
-	Transactions []Transaction          `json:"transactions"`
-	CipherMap    map[string]string      `json:"-"`
-	dbPath       string                 `json:"-"`
+	mu        sync.RWMutex
+	db        *leveldb.DB
+	CipherMap map[string]string
 }
 
 func NewStateDB(dbPath string) *StateDB {
+	db, err := leveldb.OpenFile(dbPath, nil)
+	if err != nil {
+		log.Fatalf("Fatal: Failed to open LevelDB at %s: %v", dbPath, err)
+	}
+
 	s := &StateDB{
-		CurrentBlock: 1,
-		Balances:     make(map[string]uint64),
-		Transactions: []Transaction{},
-		CipherMap:    make(map[string]string),
-		dbPath:       dbPath,
+		db:        db,
+		CipherMap: make(map[string]string),
 	}
 
 	// Initialize Level 2 Aksara-Logic Encryption Matrix
@@ -55,30 +56,101 @@ func NewStateDB(dbPath string) *StateDB {
 	s.CipherMap["E"] = "ꦌ"
 	s.CipherMap["X"] = "ꦏꦱ"
 
-	// Attempt to load from persistent storage disk layer
-	if err := s.loadFromDisk(); err != nil {
-		// Default fallback allocation if storage file does not exist
-		s.Balances["0xgenesis"] = 1000000
-		s.saveToDisk()
+	// Initialize state balances if database is blank
+	if _, err := s.db.Get([]byte("blk:latest"), nil); err != nil {
+		s.SetBlock(1)
+		s.SetBalance("0xgenesis", 1000000)
 	}
 
 	return s
 }
 
-func (s *StateDB) loadFromDisk() error {
-	if _, err := os.Stat(s.dbPath); os.IsNotExist(err) {
-		return err
-	}
-	data, err := ioutil.ReadFile(s.dbPath)
-	if err != nil {
-		return err
-	}
-	return json.Unmarshal(data, s)
+func (s *StateDB) SetBlock(num uint64) {
+	b := make([]byte, 8)
+	binary.BigEndian.PutUint64(b, num)
+	_ = s.db.Put([]byte("blk:latest"), b, nil)
 }
 
-func (s *StateDB) saveToDisk() {
-	data, _ := json.MarshalIndent(s, "", "  ")
-	_ = ioutil.WriteFile(s.dbPath, data, 0644)
+func (s *StateDB) GetBlock() uint64 {
+	b, err := s.db.Get([]byte("blk:latest"), nil)
+	if err != nil {
+		return 1
+	}
+	return binary.BigEndian.Uint64(b)
+}
+
+func (s *StateDB) IncrementBlock() {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	next := s.GetBlock() + 1
+	s.SetBlock(next)
+}
+
+func (s *StateDB) SetBalance(addr string, amount uint64) {
+	b := make([]byte, 8)
+	binary.BigEndian.PutUint64(b, amount)
+	_ = s.db.Put([]byte("bal:"+addr), b, nil)
+}
+
+func (s *StateDB) GetBalance(addr string) uint64 {
+	b, err := s.db.Get([]byte("bal:"+addr), nil)
+	if err != nil {
+		return 0
+	}
+	return binary.BigEndian.Uint64(b)
+}
+
+func (s *StateDB) SendTransaction(from string, to string, value uint64) (string, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	balFrom := s.GetBalance(from)
+	if balFrom < value {
+		return "", fmt.Errorf("insufficient funds")
+	}
+
+	s.SetBalance(from, balFrom-value)
+	s.SetBalance(to, s.GetBalance(to)+value)
+
+	raw := fmt.Sprintf("%s:%s:%d:%d", from, to, value, time.Now().UnixNano())
+	hash := sha256.Sum256([]byte(raw))
+	txHash := "0x" + hex.EncodeToString(hash[:])
+
+	tx := Transaction{Hash: txHash, From: from, To: to, Value: value}
+	txData, _ := json.Marshal(tx)
+
+	// Save individual transaction record and index it under global slice registry
+	_ = s.db.Put([]byte("tx:"+txHash), txData, nil)
+	
+	var txList []string
+	if listData, err := s.db.Get([]byte("tx:registry"), nil); err == nil {
+		json.Unmarshal(listData, &txList)
+	}
+	txList = append(txList, txHash)
+	newListData, _ := json.Marshal(txList)
+	_ = s.db.Put([]byte("tx:registry"), newListData, nil)
+
+	return txHash, nil
+}
+
+func (s *StateDB) GetTransactions() []Transaction {
+	var txList []string
+	var txRecords []Transaction
+	
+	listData, err := s.db.Get([]byte("tx:registry"), nil)
+	if err != nil {
+		return txRecords
+	}
+	json.Unmarshal(listData, &txList)
+
+	for _, hash := range txList {
+		if txData, err := s.db.Get([]byte("tx:"+hash), nil); err == nil {
+			var tx Transaction
+			json.Unmarshal(txData, &tx)
+			txRecords = append(txRecords, tx)
+		}
+	}
+	return txRecords
 }
 
 func (s *StateDB) EncryptStringToAksara(input string) string {
@@ -95,54 +167,6 @@ func (s *StateDB) EncryptStringToAksara(input string) string {
 	return strings.Join(output, "")
 }
 
-func (s *StateDB) IncrementBlock() {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	s.CurrentBlock++
-	s.saveToDisk()
-}
-
-func (s *StateDB) GetBlock() uint64 {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
-	return s.CurrentBlock
-}
-
-func (s *StateDB) GetBalance(addr string) uint64 {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
-	return s.Balances[addr]
-}
-
-func (s *StateDB) SendTransaction(from string, to string, value uint64) (string, error) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-
-	if s.Balances[from] < value {
-		return "", fmt.Errorf("insufficient funds")
-	}
-
-	s.Balances[from] -= value
-	s.Balances[to] += value
-
-	raw := fmt.Sprintf("%s:%s:%d:%d", from, to, value, time.Now().UnixNano())
-	hash := sha256.Sum256([]byte(raw))
-	txHash := "0x" + hex.EncodeToString(hash[:])
-
-	tx := Transaction{
-		Hash:  txHash,
-		From:  from,
-		To:    to,
-		Value: value,
-	}
-
-	s.Transactions = append(s.Transactions, tx)
-	s.saveToDisk()
-	return txHash, nil
-}
-
-func (s *StateDB) GetTransactions() []Transaction {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
-	return s.Transactions
+func (s *StateDB) Close() {
+	s.db.Close()
 }

@@ -11,17 +11,9 @@ import (
 )
 
 func main() {
-	genesisPath := flag.String(
-		"genesis",
-		"core/genesis.json",
-		"Path to genesis config",
-	)
-
-	rpcPort := flag.Int(
-		"rpc.port",
-		8545,
-		"RPC Port",
-	)
+	genesisPath := flag.String("genesis", "core/genesis.json", "Path to genesis config")
+	rpcPort := flag.Int("rpc.port", 8545, "HTTP RPC Port")
+	wsPort := flag.Int("ws.port", 8546, "WebSocket Stream Port")
 
 	flag.Parse()
 
@@ -31,32 +23,34 @@ func main() {
 	}
 
 	fmt.Println("==================================================")
-	fmt.Println("STG SOVEREIGN NODE BOOTING")
+	fmt.Println("STG SOVEREIGN NODE BOOTING (ENGINE: LEVELDB + WS)")
 	fmt.Println("==================================================")
-	fmt.Println("Genesis Loaded:", *genesisPath)
-	fmt.Println("RPC Port:", *rpcPort)
 
-	stateStore := core.NewStateDB("core/state_db.json")
+	// Instantiating LevelDB Binary Engine directory layout
+	stateStore := core.NewStateDB("core/state_leveldb")
+	defer stateStore.Close()
 
 	go func() {
 		for {
 			time.Sleep(5 * time.Second)
-
 			stateStore.IncrementBlock()
+			
+			rawBlockStr := fmt.Sprintf("BLOCK:%d", stateStore.GetBlock())
+			aksaraSignature := stateStore.EncryptStringToAksara(rawBlockStr)
 
-			raw := fmt.Sprintf(
-				"BLOCK:%d",
-				stateStore.GetBlock(),
-			)
+			fmt.Printf("⛏️  Block: %d | 🔐 Aksara: %s\n", stateStore.GetBlock(), aksaraSignature)
 
-			encrypted := stateStore.EncryptStringToAksara(raw)
-
-			fmt.Println("--------------------------------------------------")
-			fmt.Printf("⛏️  New Block Mined : %d\n", stateStore.GetBlock())
-			fmt.Printf("🔐 Aksara Telemetry: %s\n", encrypted)
-			fmt.Println("--------------------------------------------------")
+			// Push native block update events dynamically through WebSocket connections
+			rpc.BroadcastEvent(map[string]interface{}{
+				"event": "new_block",
+				"block": stateStore.GetBlock(),
+				"aksara": aksaraSignature,
+			})
 		}
 	}()
 
-	rpc.StartRPCServer(*rpcPort, stateStore)
+	rpc.StartRPCServer(*rpcPort, *wsPort, stateStore)
+	
+	// Keep process alive indefinitely
+	select {}
 }
