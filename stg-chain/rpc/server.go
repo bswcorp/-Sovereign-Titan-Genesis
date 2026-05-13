@@ -16,15 +16,17 @@ type RPCRequest struct {
 
 type RPCResponse struct {
 	JSONRPC string      `json:"jsonrpc"`
-	ID      int         `json:"id"`
-	Result  interface{} `json:"result,omitempty"`
-	Error   interface{} `json:"error,omitempty"`
+	Result   interface{} `json:"result,omitempty"`
+	Error    interface{} `json:"error,omitempty"`
+	ID       int         `json:"id"`
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	// Enable CORS for localhost explorer connections
+var currentBlock uint64 = 1
+
+func rpcHandler(w http.ResponseWriter, r *http.Request) {
+	// CORS validation parameters for localhost communication
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
 	if r.Method == "OPTIONS" {
@@ -35,24 +37,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	var req RPCRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		w.WriteHeader(http.StatusBadRequest)
 		return
-	}
-
-	var result interface{}
-	var rpcErr interface{}
-
-	switch req.Method {
-	case "eth_chainId":
-		result = "0x309" // 777 in Hexadecimal format
-	case "web3_clientVersion":
-		result = "STG-Chain/v0.1"
-	case "net_version":
-		result = "777"
-	case "eth_blockNumber":
-		result = "0x1"
-	default:
-		rpcErr = "method not supported"
 	}
 
 	resp := RPCResponse{
@@ -60,10 +46,15 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		ID:      req.ID,
 	}
 
-	if rpcErr != nil {
-		resp.Error = rpcErr
-	} else {
-		resp.Result = result
+	switch req.Method {
+	case "eth_chainId":
+		resp.Result = "0x309"
+	case "web3_clientVersion":
+		resp.Result = "STG-Chain/v0.1"
+	case "eth_blockNumber":
+		resp.Result = fmt.Sprintf("0x%x", currentBlock)
+	default:
+		resp.Error = "method not supported"
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -71,9 +62,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func StartRPCServer(port int) {
-	http.HandleFunc("/", handler)
 	addr := fmt.Sprintf(":%d", port)
-	log.Printf("STG RPC listening on %s\n", addr)
+	http.HandleFunc("/", rpcHandler)
+	fmt.Println("STG RPC listening on", addr)
 	err := http.ListenAndServe(addr, nil)
 	if err != nil {
 		log.Fatal(err)
