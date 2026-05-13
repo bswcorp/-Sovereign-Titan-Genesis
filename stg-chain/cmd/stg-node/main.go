@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+    "stg-chain/rpc"
 	"io/ioutil"
 	"os"
 )
@@ -28,6 +29,7 @@ func main() {
 
 	fmt.Printf("✅ Genesis State File Read Successfully from: %s\n", *genesisPath)
 	fmt.Printf("📡 JSON-RPC API Port Configured on: :%d\n", *rpcPort)
+    rpc.StartRPCServer(*rpcPort)
 	fmt.Printf("🛡️  Consensus Block Signer (Validator Mode): %t\n", *isValidator)
 	fmt.Println("------------------------------------------------------------")
 	fmt.Printf("⚙️  Payload Sample Loaded: %s...\n", string(data[:60]))
