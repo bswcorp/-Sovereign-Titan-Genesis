@@ -2,6 +2,7 @@
   "config": {
     "chainId": 777,
     "homesteadBlock": 0,
+    "eip150Block": 0,
     "eip155Block": 0,
     "eip158Block": 0,
     "byzantiumBlock": 0,
@@ -15,7 +16,7 @@
   },
   "nonce": "0x0",
   "timestamp": "0x6641e400",
-  "extraData": "0x5354472d434841494e2d47454e45534953",
+  "extraData": "0x0000000000000000000000000000000000000000000000000000000000000000",
   "gasLimit": "0x1C9C380",
   "difficulty": "0x1",
   "mixHash": "0x0000000000000000000000000000000000000000000000000000000000000000",

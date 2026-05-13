@@ -4,36 +4,59 @@ import (
 	"flag"
 	"fmt"
 	"os"
+
 	"stg-chain/core"
 	"stg-chain/rpc"
 )
 
 func main() {
-	genesisPath := flag.String("genesis", "core/genesis.json", "Path to the genesis JSON file configuration")
-	rpcPort := flag.Int("rpc.port", 8545, "Network port for HTTP JSON-RPC endpoint")
-	isValidator := flag.Bool("validator", false, "Enable consensus validation block signer mode")
+
+	genesisPath := flag.String(
+		"genesis",
+		"core/genesis.json",
+		"path to genesis config",
+	)
+
+	rpcPort := flag.Int(
+		"rpc.port",
+		8545,
+		"json rpc port",
+	)
+
+	validatorMode := flag.Bool(
+		"validator",
+		false,
+		"enable validator mode",
+	)
 
 	flag.Parse()
 
-	fmt.Println("------------------------------------------------------------")
-	fmt.Println("🚀 INITIALIZING SOVEREIGN TITAN GENESIS NODE (STG-NODE)")
-	fmt.Println("------------------------------------------------------------")
+	fmt.Println("--------------------------------------------------")
+	fmt.Println("STG CHAIN NODE INITIALIZATION")
+	fmt.Println("--------------------------------------------------")
 
-	data, err := os.ReadFile(*genesisPath)
+	_, err := os.ReadFile(*genesisPath)
 	if err != nil {
-		fmt.Printf("🚨 Initialization Error: Unable to read genesis from path %s: %v\n", *genesisPath, err)
+		fmt.Println("failed to load genesis:", err)
 		os.Exit(1)
 	}
 
-	fmt.Printf("✅ Genesis State File Read Successfully from: %s\n", *genesisPath)
-	fmt.Printf("📡 JSON-RPC API Port Configured on: :%d\n", *rpcPort)
-	fmt.Printf("🛡️  Consensus Block Signer (Validator Mode): %t\n", *isValidator)
-	fmt.Println("------------------------------------------------------------")
+	fmt.Println("genesis loaded from:", *genesisPath)
+	fmt.Println("rpc port:", *rpcPort)
+	fmt.Println("validator mode:", *validatorMode)
 
-	// 🏛️ Initialize State Storage Layer
 	stateStore := core.NewStateDB()
-	fmt.Println("⚙️  State Storage Engines Loaded Successfully.")
 
-	// Start RPC server linked to the live state machine
+	stateStore.SetBalance(
+		"0x3AA63941Fe0Ce029f4523c57A30C6dca3cB7343F",
+		1000000000,
+	)
+
+	go func() {
+		for {
+			stateStore.IncrementBlock()
+		}
+	}()
+
 	rpc.StartRPCServer(*rpcPort, stateStore)
 }

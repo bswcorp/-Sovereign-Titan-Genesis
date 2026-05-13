@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
+
 	"stg-chain/core"
 )
 
@@ -22,54 +24,67 @@ type JSONRPCResponse struct {
 	ID      int         `json:"id"`
 }
 
-func StartRPCServer(port int, stateStore *core.StateDB) {
+func StartRPCServer(port int, state *core.StateDB) {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-
-		if r.Method == "OPTIONS" {
-			w.WriteHeader(http.StatusOK)
-			return
-		}
 
 		body, err := ioutil.ReadAll(r.Body)
 		if err != nil {
-			http.Error(w, "Failed to read request body", http.StatusBadRequest)
+			http.Error(w, "invalid request body", http.StatusBadRequest)
 			return
 		}
 
 		var req JSONRPCRequest
-		if err := json.Unmarshal(body, &req); err != nil {
-			http.Error(w, "Invalid JSON", http.StatusBadRequest)
+		err = json.Unmarshal(body, &req)
+		if err != nil {
+			http.Error(w, "invalid json", http.StatusBadRequest)
 			return
 		}
 
-		var res JSONRPCResponse
-		res.JSONRPC = "2.0"
-		res.ID = req.ID
-
-		switch req.Method {
-		case "eth_blockNumber":
-			// Menarik data langsung dari State Store dinamis
-			res.Result = fmt.Sprintf("0x%x", stateStore.GetLatestBlock())
-		case "eth_getBalance":
-			if len(req.Params) > 0 {
-				address := req.Params[0].(string)
-				balance := stateStore.GetBalance(address)
-				res.Result = fmt.Sprintf("0x%x", balance)
-			} else {
-				res.Error = "Missing address parameter"
-			}
-		default:
-			res.Error = fmt.Sprintf("Method %s not implemented", req.Method)
+		resp := JSONRPCResponse{
+			JSONRPC: "2.0",
+			ID:      req.ID,
 		}
 
-		json.NewEncoder(w).Encode(res)
+		switch req.Method {
+
+		case "eth_blockNumber":
+			resp.Result = "0x" + strconv.FormatUint(state.GetLatestBlock(), 16)
+
+		case "eth_getBalance":
+			if len(req.Params) < 1 {
+				resp.Error = "missing address param"
+				break
+			}
+
+			address, ok := req.Params[0].(string)
+			if !ok {
+				resp.Error = "invalid address format"
+				break
+			}
+
+			balance := state.GetBalance(address)
+			resp.Result = "0x" + strconv.FormatUint(balance, 16)
+
+		case "web3_clientVersion":
+			resp.Result = "STG-Chain/v0.1.0"
+
+		case "net_version":
+			resp.Result = "777"
+
+		default:
+			resp.Error = "method not supported"
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(resp)
 	})
 
 	addr := fmt.Sprintf(":%d", port)
-	fmt.Printf("🚀 STG-Chain RPC server listening on %s\n", addr)
-	http.ListenAndServe(addr, nil)
+
+	fmt.Println("RPC server listening on", addr)
+
+	err := http.ListenAndServe(addr, nil)
+	if err != nil {
+		panic(err)
+	}
 }
