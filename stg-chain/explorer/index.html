@@ -18,52 +18,45 @@
         <hr color="#d4af37">
         
         <div style="margin: 20px 0;">
-            <input type="text" id="queryInput" class="input-field" placeholder="Enter Block Number (hex) or Wallet Address...">
             <button class="query-btn" onclick="queryChain()">QUERY NETWORK</button>
         </div>
 
         <pre id="outputDisplay" style="color: #aaa; text-align: left; background: #000; padding: 15px; border-left: 3px solid #d4af37;">[System Status]: Awaiting user trace command...</pre>
     </div>
 
-        <script>
-async function queryChain() {
+    <script>
+    async function queryChain() {
+        const output = document.getElementById("outputDisplay");
+        output.innerText = "[RPC] Connecting to STG Sovereign Node...";
 
-    const output = document.getElementById("outputDisplay");
+        try {
+            const response = await fetch("http://localhost:8545", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    jsonrpc: "2.0",
+                    method: "eth_blockNumber",
+                    params: [],
+                    id: 1
+                })
+            });
 
-    output.innerText = "[RPC] Connecting to STG Sovereign Node...";
+            const data = await response.json();
 
-    try {
+            output.innerText =
+                "🛰️ STG CHAIN LIVE\n\n" +
+                "Latest Block: " + data.result + "\n" +
+                "RPC Status: ONLINE\n" +
+                "Chain ID: 777";
 
-        // Query latest block
-        const response = await fetch("http://localhost:8545", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                jsonrpc: "2.0",
-                method: "eth_blockNumber",
-                params: [],
-                id: 1
-            })
-        });
-
-        const data = await response.json();
-
-        output.innerText =
-            "🛰️ STG CHAIN LIVE\n\n" +
-            "Latest Block: " + data.result + "\n" +
-            "RPC Status: ONLINE\n" +
-            "Chain ID: 777";
-
-    } catch (err) {
-
-        output.innerText =
-            "[ERROR] Failed connecting to STG RPC\n\n" +
-            err;
+        } catch (err) {
+            output.innerText =
+                "[ERROR] Failed connecting to STG RPC\n\n" +
+                err;
+        }
     }
-}
-</script>
+    </script>
 </body>
 </html>
-
