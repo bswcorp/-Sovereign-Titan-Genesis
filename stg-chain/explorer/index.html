@@ -2,61 +2,87 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>STG-Chain | Minimal Ledger Explorer</title>
+    <title>STG-Chain | Live Command Explorer</title>
     <style>
-        body { background: #070707; color: #00ff00; font-family: 'Courier New', monospace; padding: 20px; }
-        .explorer-card { border: 1px solid #d4af37; background: #111; padding: 20px; margin-bottom: 20px; box-shadow: 0 0 15px rgba(212,175,55,0.1); }
-        .input-field { background: #000; border: 1px solid #333; color: #fff; padding: 10px; width: 300px; }
-        .query-btn { border: 1px solid #00ff00; background: transparent; color: #00ff00; padding: 10px 20px; cursor: pointer; }
-        .query-btn:hover { background: #00ff00; color: #000; }
+        body { background: #050505; color: #00ff00; font-family: 'Courier New', monospace; padding: 30px; }
+        .dashboard-container { max-width: 900px; margin: 0 auto; }
+        .explorer-card { border: 1px solid #d4af37; background: rgba(17,17,17,0.9); padding: 25px; margin-bottom: 25px; box-shadow: 0 0 20px rgba(212,175,55,0.15); }
+        .metrics-grid { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .metric-box { background: #000; border: 1px solid #333; padding: 15px; width: 45%; text-align: left; }
+        .tx-list { background: #000; border: 1px solid #333; padding: 15px; text-align: left; max-height: 250px; overflow-y: auto; font-size: 0.85em; }
+        .tx-item { border-bottom: 1px solid #222; padding: 8px 0; color: #aaa; }
+        .tx-hash { color: #d4af37; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="explorer-card">
-        <h2>🛰️ STG-CHAIN MISSION CONTROL EXPLORER</h2>
-        <p style="color: #888;">REAL-TIME LEDGER VERIFICATION NODE</p>
-        <hr color="#d4af37">
-        
-        <div style="margin: 20px 0;">
-            <button class="query-btn" onclick="queryChain()">QUERY NETWORK</button>
-        </div>
+    <div class="dashboard-container">
+        <div class="explorer-card">
+            <h2 style="color: #d4af37; letter-spacing: 3px; margin-top: 0;">🛰️ STG-CHAIN REAL-TIME EXPLORER</h2>
+            <p style="color: #666; margin-bottom: 20px;">AUTOMATED LIVE LEDGER VERIFICATION STREAM</p>
+            <hr color="#d4af37" style="opacity: 0.3;">
+            
+            <div class="metrics-grid">
+                <div class="metric-box">
+                    <div style="color: #888; font-size: 0.8em;">LATEST CHAIN BLOCK</div>
+                    <div id="blockHeight" style="font-size: 2em; font-weight: bold; color: #00ff00; margin-top: 5px;">0x0</div>
+                </div>
+                <div class="metric-box">
+                    <div style="color: #888; font-size: 0.8em;">GENESIS VAULT BALANCE</div>
+                    <div id="genesisBalance" style="font-size: 2em; font-weight: bold; color: #d4af37; margin-top: 5px;">0x0</div>
+                </div>
+            </div>
 
-        <pre id="outputDisplay" style="color: #aaa; text-align: left; background: #000; padding: 15px; border-left: 3px solid #d4af37;">[System Status]: Awaiting user trace command...</pre>
+            <div style="text-align: left; margin-bottom: 10px; color: #d4af37; font-weight: bold;">[📜 LIVE TRANSACTION REGISTRY]</div>
+            <div class="tx-list" id="txRegistryDisplay">
+                <div style="color: #444;">Awaiting network tx transmission signals...</div>
+            </div>
+        </div>
     </div>
 
     <script>
-    async function queryChain() {
-        const output = document.getElementById("outputDisplay");
-        output.innerText = "[RPC] Connecting to STG Sovereign Node...";
+    async function rpcFetch(method, params = []) {
+        const response = await fetch("http://localhost:8545", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ jsonrpc: "2.0", method: method, params: params, id: Date.now() })
+        });
+        return await response.json();
+    }
 
+    async function streamNetworkData() {
         try {
-            const response = await fetch("http://localhost:8545", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    jsonrpc: "2.0",
-                    method: "eth_blockNumber",
-                    params: [],
-                    id: 1
-                })
-            });
+            // 1. Pull Block Height
+            const blockData = await rpcFetch("eth_blockNumber");
+            document.getElementById("blockHeight").innerText = blockData.result || "0x0";
 
-            const data = await response.json();
+            // 2. Pull Genesis Wallet Balance
+            const balanceData = await rpcFetch("eth_getBalance", ["0xgenesis"]);
+            document.getElementById("genesisBalance").innerText = balanceData.result || "0x0";
 
-            output.innerText =
-                "🛰️ STG CHAIN LIVE\n\n" +
-                "Latest Block: " + data.result + "\n" +
-                "RPC Status: ONLINE\n" +
-                "Chain ID: 777";
+            // 3. Pull Tx Registry List
+            const txData = await rpcFetch("stg_transactions");
+            const txContainer = document.getElementById("txRegistryDisplay");
+            
+            if (txData.result && txData.result.length > 0) {
+                txContainer.innerHTML = "";
+                txData.result.forEach(tx => {
+                    const item = document.createElement("div");
+                    item.className = "tx-item";
+                    item.innerHTML = `> HASH: <span class="tx-hash">${tx.hash.substring(0,20)}...</span> | FROM: <span>${tx.from}</span> | TO: <span>${tx.to}</span> | VALUE: <span style="color:#00ff00;">${tx.value} unit</span>`;
+                    txContainer.appendChild(item);
+                });
+            } else {
+                txContainer.innerHTML = `<div style="color: #444;">> Empty Mempool. No transactions mined on current state.</div>`;
+            }
 
         } catch (err) {
-            output.innerText =
-                "[ERROR] Failed connecting to STG RPC\n\n" +
-                err;
+            console.error("RPC Stream disconnected:", err);
         }
     }
+
+    // Mengaktifkan Polling Otomatis setiap 3 detik (Real-Time Refresh)
+    setInterval(streamNetworkData, 3000);
+    streamNetworkData(); // Initial execution run
     </script>
 </body>
 </html>
