@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"stg-chain/core"
 )
 
 type RPCRequest struct {
@@ -21,10 +22,9 @@ type RPCResponse struct {
 	ID       int         `json:"id"`
 }
 
-var currentBlock uint64 = 1
+var state *core.StateDB
 
 func rpcHandler(w http.ResponseWriter, r *http.Request) {
-	// CORS validation parameters for localhost communication
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
@@ -50,9 +50,9 @@ func rpcHandler(w http.ResponseWriter, r *http.Request) {
 	case "eth_chainId":
 		resp.Result = "0x309"
 	case "web3_clientVersion":
-		resp.Result = "STG-Chain/v0.1"
+		resp.Result = "STG-Chain/v0.2"
 	case "eth_blockNumber":
-		resp.Result = fmt.Sprintf("0x%x", currentBlock)
+		resp.Result = fmt.Sprintf("0x%x", state.GetBlock())
 	default:
 		resp.Error = "method not supported"
 	}
@@ -61,7 +61,8 @@ func rpcHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(resp)
 }
 
-func StartRPCServer(port int) {
+func StartRPCServer(port int, s *core.StateDB) {
+	state = s
 	addr := fmt.Sprintf(":%d", port)
 	http.HandleFunc("/", rpcHandler)
 	fmt.Println("STG RPC listening on", addr)
