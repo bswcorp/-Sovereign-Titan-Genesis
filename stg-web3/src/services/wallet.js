@@ -1,40 +1,35 @@
-// STG-web3 Wallet Service Layer (Production-Ready)
-// Transitioning from UI Simulation to Live RPC Connection via Ethers.js
+// STG-web3 Wallet & Contract Service Layer (Production-Grade)
+// Connecting directly to localhost Hardhat node on port 8545
 
 export const STG_CHAIN_CONFIG = {
-    chainId: '0x309', // Hex untuk Chain ID 777
-    chainName: 'STG-Chain Devnet',
-    rpcUrls: ['quorumstate.international'],
-    nativeCurrency: {
-        name: 'Qubicoin',
-        symbol: 'QBC',
-        decimals: 18
-    },
-    blockExplorerUrls: ['quorumstate.international']
+    chainId: '0x309', // Chain ID 777
+    chainName: 'STG Local Hardhat Node',
+    rpcUrls: ['http://127.0.0.1:8545'],
+    nativeCurrency: { name: 'Ethereum', symbol: 'ETH', decimals: 18 }
 };
 
-export async function connectSovereignWallet() {
-    if (!window.ethereum) throw new Error("MetaMask / Titan Hardware Shield tidak terdeteksi.");
+const CONTRACT_ADDRESS = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
+const CONTRACT_ABI = [
+    "function name() view returns (string)",
+    "function symbol() view returns (string)",
+    "function totalSupply() view returns (uint256)",
+    "function balanceOf(address) view returns (uint256)",
+    "function transfer(address, uint256) returns (bool)"
+];
+
+export async function fetchTokenData() {
+    if (!window.ethereum) throw new Error("MetaMask not detected");
     
-    // Minta koneksi dompet
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
     
-    // Switch atau Tambahkan jaringan STG-Chain secara otomatis ke dompet user
     try {
-        await window.ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: STG_CHAIN_CONFIG.chainId }],
-        });
-    } catch (switchError) {
-        if (switchError.code === 4902) {
-            await window.ethereum.request({
-                method: 'wallet_addEthereumChain',
-                params: [STG_CHAIN_CONFIG],
-            });
-        }
+        const name = await contract.name();
+        const symbol = await contract.symbol();
+        const supply = await contract.totalSupply();
+        return { name, symbol, supply: supply.toString() };
+    } catch (error) {
+        console.error("Failed fetching live contract metadata:", error);
+        return null;
     }
-    
-    return { account: accounts[0], signer };
 }
