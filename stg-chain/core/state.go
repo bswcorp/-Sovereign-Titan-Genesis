@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
+	"strings"
 	"sync"
 	"time"
 )
@@ -20,6 +21,7 @@ type StateDB struct {
 	CurrentBlock uint64
 	Balances     map[string]uint64
 	Transactions []Transaction
+	CipherMap    map[string]string
 }
 
 func NewStateDB() *StateDB {
@@ -27,11 +29,45 @@ func NewStateDB() *StateDB {
 		CurrentBlock: 1,
 		Balances:     make(map[string]uint64),
 		Transactions: []Transaction{},
+		CipherMap:    make(map[string]string),
 	}
 
-	// Genesis Wallet
+	// Initialize Level 2 Aksara-Logic Encryption Matrix
+	s.CipherMap["0"] = "꧐"
+	s.CipherMap["1"] = "꧑"
+	s.CipherMap["2"] = "꧒"
+	s.CipherMap["3"] = "꧓"
+	s.CipherMap["4"] = "꧔"
+	s.CipherMap["5"] = "꧕"
+	s.CipherMap["6"] = "꧖"
+	s.CipherMap["7"] = "꧗"
+	s.CipherMap["8"] = "꧘"
+	s.CipherMap["9"] = "꧙"
+	s.CipherMap["A"] = "ꦄ"
+	s.CipherMap["B"] = "ꦧ"
+	s.CipherMap["C"] = "ꦼ"
+	s.CipherMap["D"] = "ꦢ"
+	s.CipherMap["E"] = "ꦌ"
+	s.CipherMap["X"] = "ꦏꦱ"
+
+	// Genesis Allocation
 	s.Balances["0xgenesis"] = 1000000
 	return s
+}
+
+// EncryptStringToAksara converts standard hex telemetry data into Aksara-Logic parameters
+func (s *StateDB) EncryptStringToAksara(input string) string {
+	upperInput := strings.ToUpper(input)
+	var output []string
+	for _, char := range upperInput {
+		strChar := string(char)
+		if val, exists := s.CipherMap[strChar]; exists {
+			output = append(output, val)
+		} else {
+			output = append(output, strChar)
+		}
+	}
+	return strings.Join(output, "")
 }
 
 func (s *StateDB) IncrementBlock() {
