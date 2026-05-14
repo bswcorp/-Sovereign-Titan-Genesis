@@ -1,1 +1,137 @@
-[Tempelkan kode HTML di atas]
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>QSTATE | Sovereign Titan Genesis Dashboard</title>
+    <style>
+        body { background-color: #050505; color: #d4af37; font-family: 'Courier New', monospace; text-align: center; }
+        .dashboard { border: 2px solid #d4af37; padding: 30px; margin: 40px auto; width: 85%; background: rgba(17, 17, 17, 0.9); box-shadow: 0 0 30px #d4af37; }
+        .stat-box { display: inline-block; width: 45%; margin: 10px; padding: 25px; border: 1px solid #333; background: #000; vertical-align: top; }
+        .amount { font-size: 2.5em; font-weight: bold; color: #00ff00; text-shadow: 0 0 15px #00ff00; font-variant-numeric: tabular-nums; }
+        .label { font-size: 1.1em; color: #aaa; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 2px; }
+        
+        /* Gaya Komponen Baru untuk Riwayat Transaksi */
+        .tx-log-container { border: 1px solid #333; background: #000; margin-top: 25px; padding: 20px; text-align: left; }
+        .tx-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85em; }
+        .tx-table th { border-bottom: 1px solid #d4af37; padding: 10px; color: #d4af37; text-align: left; }
+        .tx-table td { padding: 10px; border-bottom: 1px solid #222; color: #ccc; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        
+        .ticker-container { background: #000; padding: 10px; border-top: 1px solid #d4af37; margin-top: 20px; overflow: hidden; white-space: nowrap; }
+        .ticker-text { display: inline-block; animation: scroll 25s linear infinite; color: #d4af37; font-size: 0.9em; }
+        @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        .status-blink { height: 12px; width: 12px; background-color: #00ff00; border-radius: 50%; display: inline-block; animation: blink 1s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+<div class="dashboard">
+    <h1 style="letter-spacing: 5px;">SOVEREIGN TITAN GENESIS</h1>
+    <p style="color: #888;">INTERNAL COMMAND CENTER - QUANTUM VALUATION TERMINAL</p>
+    <hr color="#d4af37">
+    
+    <div class="stat-box">
+        <div class="label">Valuasi Kuantum Tembako (sIDR)</div>
+        <div id="valuation" class="amount">Connecting...</div>
+        <div style="font-size: 0.8em; color: #666; margin-top: 10px;">Formula: (5 ETH Pool / 1M Circulating) * 100K Quadrillion</div>
+    </div>
+
+    <div class="stat-box">
+        <div class="label">Tinggi Blok Node (Live RPC)</div>
+        <div id="blockHeight" class="amount" style="color: #d4af37;">0x0</div>
+        <div style="font-size: 1em; color: #00ff00; margin-top: 10px;"><span class="status-blink"></span> LIVE RPC STREAM</div>
+    </div>
+
+    <!-- Container Form Transaksi Terpasang -->
+    <div id="metaportationFormContainer"></div>
+
+    <!-- 📋 KOMPONEN BARU: LIVE TRANSACTION HISTORY LOG (PHASE 3) -->
+    <div class="tx-log-container">
+        <div style="font-size: 1em; color: #d4af37; font-weight: bold; letter-spacing: 2px;">📜 LIVE LEDGER REGISTRY AUDIT</div>
+        <table class="tx-table">
+            <thead>
+                <tr>
+                    <th>TX HASH</th>
+                    <th>FROM</th>
+                    <th>TO</th>
+                    <th>VALUE (QBC)</th>
+                </tr>
+            </thead>
+            <tbody id="txLogBody">
+                <tr>
+                    <td colspan="4" style="color: #555; text-align: center;">Awaiting initial transaction transmission from userland...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="ticker-container">
+        <div class="ticker-text">
+            [MARKET] QSTATE/SAR: 3.75 ▲ | QSTATE/CNY: 7.23 ▲ | [AMMO] 100K QUADRILLION LOADED | [PHASE 3] TX REGISTRY MEMORY LIVE | [SYSTEM] QUANTUM PROTECTION ACTIVE
+        </div>
+    </div>
+</div>
+
+<script>
+    const ethPool = 5.0; 
+    const circulatingSupply = 1000000; 
+    const totalSovereignSupply = 100000000000000000000; 
+    const ethToIdrRate = 45000000; 
+
+    async function fetchChainData() {
+        try {
+            // 1. Ambil Tinggi Blok Node
+            const blockResponse = await fetch("http://localhost:8545", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ jsonrpc: "2.0", method: "eth_blockNumber", params: [], id: 1 })
+            });
+            const blockData = await blockResponse.json();
+            
+            if (blockData.result) {
+                const blockHex = blockData.result;
+                const blockNumber = parseInt(blockHex, 16);
+                document.getElementById('blockHeight').innerText = blockHex;
+
+                const pricePerCoinEth = ethPool / circulatingSupply;
+                const baseValuationEth = pricePerCoinEth * totalSovereignSupply;
+                const structuralGrowth = blockNumber * 150000000; 
+                const finalValuationIdr = (baseValuationEth * ethToIdrRate) + structuralGrowth;
+                document.getElementById('valuation').innerText = "Rp " + finalValuationIdr.toLocaleString('id-ID');
+            }
+
+            // 2. ⚡ AMBIL DATA REKOR HISTORI TRANSAKSI (PHASE 3 CORNERSTONE)
+            const txResponse = await fetch("http://localhost:8545", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ jsonrpc: "2.0", method: "stg_getTransactionHistory", params: [], id: 2 })
+            });
+            const txData = await txResponse.json();
+            
+            if (txData.result && txData.result.length > 0) {
+                const tbody = document.getElementById("txLogBody");
+                tbody.innerHTML = ""; // Bersihkan placeholder lama
+                
+                // Tampilkan data mutasi dari memori Go ke dalam tabel visual
+                txData.result.forEach(tx => {
+                    const row = `<tr>
+                        <td style="color: #00ff00; font-weight: bold;">${tx.hash}</td>
+                        <td>${tx.from}</td>
+                        <td>${tx.to}</td>
+                        <td style="color: #d4af37;">${tx.value.toLocaleString()}</td>
+                    </tr>`;
+                    tbody.innerHTML += row;
+                });
+            }
+        } catch (err) {
+            document.getElementById('valuation').innerText = "RPC OFFLINE";
+            document.getElementById('blockHeight').innerText = "0x0";
+        }
+    }
+
+    setInterval(fetchChainData, 2000);
+    fetchChainData();
+</script>
+
+</body>
+</html>
