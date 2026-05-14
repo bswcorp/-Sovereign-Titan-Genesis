@@ -15,10 +15,8 @@
         .tx-table th { border-bottom: 1px solid #d4af37; padding: 10px; color: #d4af37; text-align: left; }
         .tx-table td { padding: 10px; border-bottom: 1px solid #222; color: #ccc; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         
-        /* Phase 5 Pulse Animation Effect for New Blocks */
         .pulse-highlight { animation: green-pulse 0.8s alternate ease-in-out; }
         @keyframes green-pulse { 0% { background: #000; } 100% { background: rgba(0, 255, 0, 0.15); } }
-
         .ticker-container { background: #000; padding: 10px; border-top: 1px solid #d4af37; margin-top: 20px; overflow: hidden; white-space: nowrap; }
         .ticker-text { display: inline-block; animation: scroll 25s linear infinite; color: #d4af37; font-size: 0.9em; }
         @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
@@ -30,7 +28,7 @@
 
 <div class="dashboard" id="mainDashboardFrame">
     <h1 style="letter-spacing: 5px;">SOVEREIGN TITAN GENESIS</h1>
-    <p style="color: #888;">INTERNAL COMMAND CENTER - HIGH FREQUENCY ARCHITECTURE</p>
+    <p style="color: #888;">INTERNAL COMMAND CENTER - WEBSOCKET EVENT STREAM INTERFACE</p>
     <hr color="#d4af37">
     
     <div class="stat-box">
@@ -65,8 +63,8 @@
                 </tr>
             </thead>
             <tbody id="txLogBody">
-                <tr>
-                    <td colspan="4" style="color: #555; text-align: center;">Awaiting initial transaction transmission from userland...</td>
+                <tr id="placeholderRow">
+                    <td colspan="4" style="color: #555; text-align: center;">Listening for real-time WebSocket stream push notifications from node...</td>
                 </tr>
             </tbody>
         </table>
@@ -74,7 +72,7 @@
 
     <div class="ticker-container">
         <div class="ticker-text">
-            [MARKET] QSTATE/SAR: 3.75 ▲ | QSTATE/CNY: 7.23 ▲ | [AMMO] 100K QUADRILLION LOADED | [PHASE 5] HIGH-EFFICIENCY AUTO-REFRESH CORES ENABLED | [SYSTEM] QUANTUM PROTECTION ACTIVE
+            [MARKET] QSTATE/SAR: 3.75 ▲ | [WS STREAM] CONNECTED TO PORT 8546/WS | [AMMO] 100K QUADRILLION LOADED | [SYSTEM] QUANTUM PROTECTION ACTIVE
         </div>
     </div>
 </div>
@@ -86,87 +84,64 @@
     const ethToIdrRate = 45000000; 
     const sultanWallet = "0x3AA63941Fe0Ce029f4523c57A30C6dca3cB7343F";
 
-    // Cache variables to handle Delta Render checks
-    let lastKnownBlock = 0;
-    let lastKnownTxCount = 0;
-
-    async function executeAdaptiveRefresh() {
+    // Polling only for basic node metadata block calculations
+    async function syncBlockMetadata() {
         try {
-            // 1. Fetch Block Height
             const blockResponse = await fetch("http://localhost:8545", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ jsonrpc: "2.0", method: "eth_blockNumber", params: [], id: 1 })
             });
             const blockData = await blockResponse.json();
-            
             if (blockData.result) {
                 const blockHex = blockData.result;
                 const currentBlockNumber = parseInt(blockHex, 16);
-                
-                // Delta trigger: animate only when a real new block ticks
-                if (currentBlockNumber !== lastKnownBlock) {
-                    lastKnownBlock = currentBlockNumber;
-                    const el = document.getElementById('blockHeightBox');
-                    el.classList.add('pulse-highlight');
-                    setTimeout(() => el.classList.remove('pulse-highlight'), 800);
-                }
-
                 document.getElementById('blockHeight').innerText = blockHex;
 
                 const pricePerCoinEth = ethPool / circulatingSupply;
                 const baseValuationEth = pricePerCoinEth * totalSovereignSupply;
-                const structuralGrowth = currentBlockNumber * 150000000; 
-                const finalValuationIdr = (baseValuationEth * ethToIdrRate) + structuralGrowth;
+                const finalValuationIdr = (baseValuationEth * ethToIdrRate) + (currentBlockNumber * 150000000);
                 document.getElementById('valuation').innerText = "Rp " + finalValuationIdr.toLocaleString('id-ID');
             }
+        } catch (err) {
+            document.getElementById('valuation').innerText = "RPC OFFLINE";
+        }
+    }
 
-            // 2. Fetch Live Balance State mapping
-            const balanceResponse = await fetch("http://localhost:8545", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ jsonrpc: "2.0", method: "eth_balanceOf", params: [sultanWallet], id: 2 })
-            });
-            const balanceData = await balanceResponse.json();
-            
-            if (balanceData.result) {
-                const rawBalance = parseInt(balanceData.result, 16);
-                document.getElementById('vaultBalance').innerText = rawBalance.toLocaleString() + " QBC";
-            }
+    // ⚡ INITIALIZE WEBSOCKET INTERCEPTOR CORE (PHASE 6)
+    function initializeWebSocket() {
+        const ws = new WebSocket("ws://localhost:8546/ws");
 
-            // 3. Fetch Transaction logs
-            const txResponse = await fetch("http://localhost:8545", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ jsonrpc: "2.0", method: "stg_getTransactionHistory", params: [], id: 3 })
-            });
-            const txData = await txResponse.json();
-            
-            if (txData.result && txData.result.length !== lastKnownTxCount) {
-                lastKnownTxCount = txData.result.length;
-                const tbody = document.getElementById("txLogBody");
-                tbody.innerHTML = "";
-                
-                txData.result.reverse().forEach(tx => {
+        ws.onmessage = function(event) {
+            try {
+                const msg = JSON.parse(event.data);
+                if (msg.method === "stg_subscription" && msg.params) {
+                    const tx = msg.params;
+                    const placeholder = document.getElementById("placeholderRow");
+                    if (placeholder) placeholder.remove();
+
+                    const tbody = document.getElementById("txLogBody");
                     const row = `<tr>
                         <td style="color: #00ff00; font-weight: bold;">${tx.hash}</td>
                         <td>${tx.from}</td>
                         <td>${tx.to}</td>
                         <td style="color: #d4af37;">${tx.value.toLocaleString()}</td>
                     </tr>`;
-                    tbody.innerHTML += row;
-                });
+                    
+                    // Insert the freshly pushed transaction right at the top
+                    tbody.insertAdjacentHTML('afterbegin', row);
+                }
+            } catch (e) {
+                console.error("Payload decoding failure:", e);
             }
-        } catch (err) {
-            document.getElementById('valuation').innerText = "RPC OFFLINE";
-            document.getElementById('blockHeight').innerText = "0x0";
-            document.getElementById('vaultBalance').innerText = "0 QBC";
-        }
+        };
+
+        ws.onerror = function() { console.log("WS Server connection disrupted."); };
+        ws.onclose = function() { setTimeout(initializeWebSocket, 5000); }; // Persistent self-healing reconnect loop
     }
 
-    // High frequency 1-second synchronization loop mapping
-    setInterval(executeAdaptiveRefresh, 1000);
-    executeAdaptiveRefresh();
+    setInterval(syncBlockMetadata, 1000);
+    initializeWebSocket();
 </script>
 
 </body>
