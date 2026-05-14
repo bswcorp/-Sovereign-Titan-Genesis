@@ -380,6 +380,26 @@ button:hover{
         <div>> CONNECTING SWISS NODE...</div>
         <div>> SENTINEL AI ACTIVE...</div>
     </div>
+    <div class="ticker-card">
+  <h3>🚀 Sultan Valuation Ticker</h3>
+  <p id="price">Price: Loading...</p>
+  <p id="marketCap">Market Cap: Loading...</p>
+</div>
+
+<script type="module">
+import { startTicker } from "./components/Ticker.js";
+
+function setPrice(val) {
+  document.getElementById("price").innerText = "Price: " + val + " ETH";
+}
+
+function setMarketCap(val) {
+  document.getElementById("marketCap").innerText = "Market Cap: " + val + " ETH";
+}
+
+startTicker(setPrice, setMarketCap);
+</script>
+    
 
     <div class="ticker-container">
         <div class="ticker-text">
